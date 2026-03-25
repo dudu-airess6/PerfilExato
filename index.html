@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerfilExato SENAI</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        SENAI • PLATAFORMA DE EMPREGABILIDADE TÉCNICA
+    </div>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">PerfilExato</div>
+            <nav class="nav-links">
+                <a href="#" class="active">Início</a>
+                <a href="dashboard.html">Meu Perfil</a>
+                <a href="vagas.html">Vagas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-container">
+            
+            <div class="hero-text">
+                <p class="eyebrow">SENAI • PLATAFORMA DE EMPREGABILIDADE</p>
+                <h1>O currículo certo,<br>para a vaga certa.</h1>
+                <p class="description">
+                    PerfilExato analisa as suas competências técnicas e liga-o às vagas com maior compatibilidade — com a precisão que só o SENAI pode oferecer.
+                </p>
+                <div class="hero-buttons">
+                    <a href="vagas.html" class="btn btn-dark">Ver Vagas Compatíveis &rarr;</a>
+                    <a href="dashboard.html" class="btn btn-outline">Meu Perfil</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="upload-box" id="dropzone">
+                    <div class="upload-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#3A2E24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <polyline points="9 15 12 12 15 15"></polyline>
+                            <path d="M19 15a3 3 0 0 1-3 3 3 3 0 0 1-3-3v-4"></path>
+                        </svg>
+                    </div>
+                    <h2>ANEXE O SEU CURRÍCULO PDF</h2>
+                    <p class="upload-hint">Arraste e solte o ficheiro aqui (.pdf somente)</p>
+                    <button class="btn-outline-upload">Selecionar Ficheiro</button>
+                    <input type="file" id="fileInput" accept=".pdf" hidden>
+                </div>
+                <p class="upload-footer-text">Faça o upload do seu currículo para começar a análise automática de competências.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="features">
+        <div class="features-header">
+            <h2>Por que usar o PerfilExato?</h2>
+            <p>Tecnologia ao serviço da sua trajetória técnica profissional.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-number">01</div>
+                <h3>Análise Inteligente de Currículo</h3>
+                <p>A nossa IA lê o seu currículo e mapeia as suas competências técnicas com a precisão que o mercado industrial exige.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-number">02</div>
+                <h3>Score de Compatibilidade</h3>
+                <p>Cada vaga recebe uma percentagem de match real para que saiba exatamente onde tem mais hipóteses.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-number">03</div>
+                <h3>Vagas Filtradas por Perfil</h3>
+                <p>Chega de enviar currículos às cegas. Veja apenas as vagas que combinam com a sua formação SENAI.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="dark-wrapper">
+        
+        <section class="cta">
+            <h2>Pronto para a sua próxima oportunidade?</h2>
+            <p>Complete o seu perfil e descubra vagas com até 98% de compatibilidade com as suas competências SENAI.</p>
+            <a href="vagas.html" class="btn btn-light">Explorar Vagas Agora &rarr;</a>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                
+                <div class="footer-brand">
+                    <div class="footer-logo">PerfilExato</div>
+                    <p>A plataforma de empregabilidade técnica do SENAI, a ligar talentos às melhores vagas com precisão e inteligência.</p>
+                </div>
+                
+                <div class="footer-nav">
+                    <h4>NAVEGAÇÃO</h4>
+                    <a href="#">Início</a>
+                    <a href="dashboard.html">Meu Perfil</a>
+                    <a href="vagas.html">Vagas</a>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>CONTACTO</h4>
+                    <p>contacto@perfilexato.senai.br</p>
+                    <p>0800 061 7266</p>
+                    <p>Seg-Sex • 08h-18h</p>
+                </div>
+
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 PerfilExato • SENAI • A precisão técnica que a sua carreira exige.</p>
+            </div>
+        </footer>
+        
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

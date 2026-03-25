@@ -1,0 +1,428 @@
+/* =========================================================
+   VARIÁVEIS E CONFIGURAÇÕES GLOBAIS
+   ========================================================= */
+:root {
+    --bg-light: #F4F1EA;
+    --bg-dark: #3A2E24;
+    --text-dark: #3A2E24;
+    --text-medium: #6B5E51;
+    --text-light: #F4F1EA;
+    --border-color: #D1C7B7;
+    
+    --font-serif: 'Merriweather', serif;
+    --font-sans: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .logo, .footer-logo {
+    font-family: var(--font-serif);
+    color: var(--text-dark);
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================================
+   TOPO E NAVEGAÇÃO
+   ========================================================= */
+.top-bar {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 8px 0;
+    text-transform: uppercase;
+}
+
+.navbar {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-medium);
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.nav-links a.active {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--text-dark);
+}
+
+.nav-links a:hover {
+    color: var(--text-dark);
+}
+
+/* =========================================================
+   HERO SECTION (Banner Principal)
+   ========================================================= */
+.hero {
+    padding: 80px 40px;
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha os itens pelo topo */
+    gap: 60px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--text-medium);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: var(--text-medium);
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+/* Botões */
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-dark {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    border: 2px solid var(--bg-dark);
+}
+
+.btn-dark:hover {
+    background-color: #2a2018;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--text-dark);
+}
+
+.btn-outline:hover {
+    background-color: rgba(58, 46, 36, 0.05);
+}
+
+/* Área de Upload (Caixa Pontilhada) */
+.hero-visual {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-box {
+    width: 100%;
+    max-width: 450px;
+    border: 2px dashed rgba(58, 46, 36, 0.6);
+    border-radius: 16px;
+    padding: 50px 30px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.upload-box:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.upload-icon {
+    margin-bottom: 20px;
+}
+
+.upload-box h2 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.upload-hint {
+    color: var(--text-medium);
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+.btn-outline-upload {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1.5px solid var(--text-dark);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-outline-upload:hover {
+    background-color: rgba(58, 46, 36, 0.05);
+}
+
+.upload-footer-text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    max-width: 400px;
+}
+
+/* =========================================================
+   FUNCIONALIDADES
+   ========================================================= */
+.divider {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+.features {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+}
+
+.features-header {
+    margin-bottom: 60px;
+}
+
+.features-header h2 {
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+}
+
+.features-header p {
+    font-size: 1.1rem;
+    color: var(--text-medium);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+}
+
+.feature-number {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+/* Linha preta ao lado do número */
+.feature-number::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 24px;
+    background-color: var(--text-dark);
+    margin-right: 12px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.feature-card p {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+}
+
+/* =========================================================
+   BLOCO ESCURO INFERIOR (CTA + RODAPÉ)
+   ========================================================= */
+.dark-wrapper {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+/* Call To Action */
+.cta {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 100px 20px 80px;
+}
+
+.cta h2 {
+    color: var(--text-light);
+    font-size: 3rem;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+}
+
+.cta p {
+    font-size: 1.1rem;
+    color: #B4A99C; /* Creme escurecido para melhor leitura no fundo preto */
+    margin-bottom: 40px;
+}
+
+.btn-light {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    border: 2px solid var(--bg-light);
+}
+
+.btn-light:hover {
+    background-color: #e8e4db;
+}
+
+/* Rodapé */
+.footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    border-top: 1px solid rgba(244, 241, 234, 0.1);
+    padding-top: 60px;
+    margin-bottom: 40px;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 16px;
+    color: var(--text-light);
+}
+
+.footer-brand p {
+    color: #B4A99C;
+    font-size: 0.9rem;
+    max-width: 320px;
+}
+
+.footer h4 {
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.footer-nav, .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-nav a, .footer-contact p {
+    color: #B4A99C;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.footer-nav a:hover {
+    color: var(--text-light);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(244, 241, 234, 0.1);
+    padding-top: 24px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #8c8173;
+    font-size: 0.8rem;
+}
+
+/* =========================================================
+   RESPONSIVIDADE (Tablets e Telemóveis)
+   ========================================================= */
+@media (max-width: 900px) {
+    .hero-container, .features-grid, .footer-grid {
+        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .hero-visual {
+        align-items: center;
+        width: 100%;
+    }
+}

@@ -1,0 +1,89 @@
+/* Estilos específicos da Tela 3 (Vagas) */
+body {
+    background-color: #ede9dd;
+    color: #736B66;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.filter-alert {
+    background-color: #736B66;
+    color: #ede9dd;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.job-card {
+    background-color: #ffffff;
+    border: 1px solid #736B66;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.job-title {
+    color: #4A3B32;
+    margin: 0 0 5px 0;
+    font-size: 1.4rem;
+}
+
+.company-name {
+    font-style: italic;
+    margin: 0 0 15px 0;
+}
+
+.match-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #4A3B32;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.job-skills {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.skill-match {
+    background-color: #ede9dd;
+    color: #4A3B32;
+    border: 1px solid #4A3B32;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.btn-apply {
+    background-color: #4A3B32;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}
+
+.btn-apply:hover {
+    background-color: #312620;
+}
