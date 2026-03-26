@@ -3,45 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PerfilExato SENAI - Vagas</title>
+    <title>PerfilExato SENAI - Vagas Disponíveis</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/vagas.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="filter-alert">
-            ✓ Ativado: Filtrando por Competências Técnicas
-        </div>
-
-        <div class="job-card">
-            <div class="match-badge">98% Compatível</div>
-            <h2 class="job-title">Técnico em Eletromecânica Jr.</h2>
-            <p class="company-name">Indústrias Metalúrgicas Atlas</p>
-            
-            <p><strong>Por que este match?</strong> Você possui os requisitos principais:</p>
-            <div class="job-skills">
-                <span class="skill-match">✓ Eletricidade Predial</span>
-                <span class="skill-match">✓ AutoCAD</span>
-                <span class="skill-match">✓ Manutenção Preventiva</span>
-            </div>
-
-            <button class="btn-apply">Candidatar-se com PerfilExato</button>
-        </div>
-
-        <div class="job-card">
-            <div class="match-badge">85% Compatível</div>
-            <h2 class="job-title">Auxiliar de Manutenção Industrial</h2>
-            <p class="company-name">TechMec Soluções</p>
-            
-            <p><strong>Por que este match?</strong> Você atende a maior parte dos requisitos:</p>
-            <div class="job-skills">
-                <span class="skill-match">✓ CLP</span>
-                <span class="skill-match">✓ Manutenção Preventiva</span>
-            </div>
-
-            <button class="btn-apply">Candidatar-se com PerfilExato</button>
-        </div>
+    <div class="top-bar">
+        SENAI • PLATAFORMA DE EMPREGABILIDADE TÉCNICA
     </div>
-<script src="js/script.js"></script>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">PerfilExato</div>
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="dashboard.html">Meu Perfil</a>
+                <a href="#" class="active">Vagas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="vagas-wrapper">
+        <div class="container">
+            <div class="filter-alert">
+                <span class="icon">✓</span> Ativado: Filtrando por Competências Técnicas do seu currículo
+            </div>
+
+            <div class="job-card">
+                <div class="match-badge">98% Compatível</div>
+                <h2 class="job-title">Técnico em Eletromecânica Jr.</h2>
+                <p class="company-name">Indústrias Metalúrgicas Atlas</p>
+                
+                <div class="job-description">
+                    <p class="match-reason"><strong>Por que este match?</strong> Você possui os requisitos principais identificados pelo SENAI:</p>
+                    <div class="job-skills">
+                        <span class="skill-match">✓ Eletricidade Predial</span>
+                        <span class="skill-match">✓ AutoCAD</span>
+                        <span class="skill-match">✓ Manutenção Preventiva</span>
+                    </div>
+                </div>
+
+                <button class="btn-apply">Candidatar-se com PerfilExato &rarr;</button>
+            </div>
+
+            <div class="job-card">
+                <div class="match-badge">85% Compatível</div>
+                <h2 class="job-title">Auxiliar de Manutenção Industrial</h2>
+                <p class="company-name">TechMec Soluções</p>
+                
+                <div class="job-description">
+                    <p class="match-reason"><strong>Por que este match?</strong> Você atende a maior parte dos requisitos técnicos:</p>
+                    <div class="job-skills">
+                        <span class="skill-match">✓ CLP</span>
+                        <span class="skill-match">✓ Manutenção Preventiva</span>
+                    </div>
+                </div>
+
+                <button class="btn-apply">Candidatar-se com PerfilExato &rarr;</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

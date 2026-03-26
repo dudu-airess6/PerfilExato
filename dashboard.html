@@ -4,38 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PerfilExato SENAI - Meu Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1>PerfilExato SENAI</h1>
-            <span>Menu</span>
-        </div>
+    <div class="top-bar">
+        SENAI • PLATAFORMA DE EMPREGABILIDADE TÉCNICA
+    </div>
 
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">PerfilExato</div>
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="#" class="active">Meu Perfil</a>
+                <a href="vagas.html">Vagas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-wrapper">
         <div class="dashboard-card">
+            
             <div class="user-info">
+                <p class="eyebrow">PERFIL ANALISADO</p>
                 <h2>Olá, João Silva</h2>
-                <p>Técnico em Eletromecânica</p>
-                <p><strong>Prontidão para o Mercado:</strong></p>
-                <div class="match-bar-container">
-                    <div class="match-bar">85% Pronto</div>
+                <p class="user-title">Técnico em Eletromecânica</p>
+                
+                <div class="readiness-section">
+                    <p><strong>Prontidão para o Mercado:</strong></p>
+                    <div class="match-bar-container">
+                        <div class="match-bar">85% Pronto</div>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h3>Habilidades Detectadas</h3>
+            <div class="skills-section">
+                <h3>Competências Detetadas</h3>
                 <div class="skills-container">
                     <span class="skill-tag">Eletricidade Predial</span>
                     <span class="skill-tag">AutoCAD</span>
                     <span class="skill-tag">CLP</span>
                     <span class="skill-tag">Manutenção Preventiva</span>
                 </div>
-                <button class="btn-primary">Ver Vagas Compatíveis</button>
+                
+                <button class="btn-primary">Ver Vagas Compatíveis &rarr;</button>
             </div>
+            
         </div>
-    </div>
-<script src="js/script.js"></script>
+    </main>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

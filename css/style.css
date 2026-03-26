@@ -22,6 +22,18 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
 }
+/* Remove a barra de rolagem visualmente em todos os navegadores */
+html, body {
+    scrollbar-width: none;            /* Firefox */
+    -ms-overflow-style: none;         /* IE e Edge */
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+    display: none;                    /* Chrome, Safari e Opera */
+    width: 0;
+    height: 0;
+}
 
 h1, h2, h3, .logo, .footer-logo {
     font-family: var(--font-serif);
@@ -90,6 +102,10 @@ a {
     color: var(--text-dark);
 }
 
+.nav-links a:hover {
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border-color); /* Linha aparece clarinha no hover */
+}
 /* =========================================================
    HERO SECTION (Banner Principal)
    ========================================================= */
@@ -424,5 +440,57 @@ a {
     .hero-visual {
         align-items: center;
         width: 100%;
+    }
+}
+/* =========================================================
+   SETA FLUTUANTE (INDICADOR DE SCROLL)
+   ========================================================= */
+.scroll-arrow {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #3A2E24; /* Castanho escuro SENAI */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 15px rgba(58, 46, 36, 0.2);
+    cursor: pointer;
+    z-index: 1000; /* Garante que fica por cima de tudo */
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    
+    /* Animação suave de subir e descer para chamar atenção */
+    animation: bounceArrow 2s infinite;
+}
+
+.scroll-arrow:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(58, 46, 36, 0.3);
+}
+
+/* Definição da animação "bounce" */
+@keyframes bounceArrow {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+    60% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Esconde a seta em ecrãs muito pequenos se necessário */
+@media (max-width: 600px) {
+    .scroll-arrow {
+        width: 40px;
+        height: 40px;
+        bottom: 20px;
+        right: 20px;
     }
 }

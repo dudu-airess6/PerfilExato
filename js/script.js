@@ -118,3 +118,42 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+// --- FUNCIONALIDADE DA SETA COM DETECÇÃO DE FINAL DE PÁGINA ---
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollArrow = document.getElementById('scrollArrow');
+
+    if (scrollArrow) {
+        window.addEventListener('scroll', () => {
+            const scrollTopo = window.scrollY; // O quanto você já desceu
+            const alturaTotal = document.documentElement.scrollHeight; // Altura total da página
+            const alturaJanela = window.innerHeight; // Altura da sua tela
+            
+            // 1. Mostra a seta apenas se não estiver no topo (ex: desceu mais de 200px)
+            // 2. Esconde a seta se estiver chegando no fim (ex: faltam menos de 100px para o fim)
+            const noFinal = (scrollTopo + alturaJanela) >= (alturaTotal - 100);
+
+            if (scrollTopo > 200 && !noFinal) {
+                scrollArrow.style.display = 'flex';
+                scrollArrow.style.opacity = '1';
+                scrollArrow.style.pointerEvents = 'auto';
+            } else {
+                scrollArrow.style.opacity = '0';
+                scrollArrow.style.pointerEvents = 'none';
+                // Delay para o display none não cortar a animação de opacidade
+                setTimeout(() => {
+                    if (scrollArrow.style.opacity === '0') {
+                        scrollArrow.style.display = 'none';
+                    }
+                }, 300);
+            }
+        });
+
+        // Clique para descer suavemente
+        scrollArrow.addEventListener('click', () => {
+            window.scrollBy({
+                top: window.innerHeight * 0.7,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
