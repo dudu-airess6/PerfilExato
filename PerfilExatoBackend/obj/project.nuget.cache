@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "PMDkZSiRS2s=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\PerfilExatoBackend\\PerfilExatoBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.12\\microsoft.aspnetcore.openapi.9.0.12.nupkg.sha512",
+    "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
