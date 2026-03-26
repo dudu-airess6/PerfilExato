@@ -1,2 +1,2 @@
 using System;
-double num1 = ;
+public class Candidato;
