@@ -1,22 +1,34 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     // --- 1. TELA DE FORMULÁRIO (formulario.html) ---
-    // Esta parte vai capturar o clique do botão "Analisar Perfil" quando criarmos o formulário
-    const formPerfil = document.getElementById('formPerfil');
+    // Vai capturar o formulário pelo ID que acabámos de adicionar
+    const formPerfil = document.getElementById('formPerfil'); 
+    
     if (formPerfil) {
         formPerfil.addEventListener('submit', function(e) {
-            e.preventDefault(); // Impede a página de recarregar
+            e.preventDefault(); // Impede o comportamento padrão de recarregar a página
             
-            // Aqui futuramente enviaremos os dados para o C#, mas por agora:
-            // Simula o envio e vai para a tela do Scanner
-            window.location.href = "scanner.html";
+            const btnSubmit = formPerfil.querySelector('.btn-submit');
+            
+            // Efeito visual de carregamento
+            if (btnSubmit) {
+                btnSubmit.innerHTML = "A processar dados...";
+                btnSubmit.style.opacity = "0.8";
+                btnSubmit.style.cursor = "wait";
+            }
+            
+            // Aguarda quase 1 segundo e manda para o Scanner
+            setTimeout(() => {
+                window.location.href = "scanner.html";
+            }, 800);
         });
     }
 
     // --- 2. TELA: O SCANNER (scanner.html) ---
+    // Se a página tiver o cartão do scanner, significa que estamos no scanner.html
     const scannerScreen = document.querySelector('.scanner-card');
     if (scannerScreen) {
-        // Aguarda 3.5 segundos e redireciona para o Dashboard
+        // Aguarda 3.5 segundos (tempo da animação) e redireciona para o Dashboard (Meu Perfil)
         setTimeout(function() {
             window.location.href = "dashboard.html";
         }, 3500);
@@ -51,36 +63,28 @@ document.addEventListener("DOMContentLoaded", function() {
     // --- 5. FUNCIONALIDADE DA SETA DE SCROLL (Global) ---
     const scrollArrow = document.getElementById('scrollArrow');
     if (scrollArrow) {
-        window.addEventListener('scroll', () => {
-            const scrollTopo = window.scrollY; // O quanto já desceu
-            const alturaTotal = document.documentElement.scrollHeight; // Altura total da página
-            const alturaJanela = window.innerHeight; // Altura da tela
-            
-            // Esconde a seta se estiver chegando no fim (faltando menos de 100px)
-            const noFinal = (scrollTopo + alturaJanela) >= (alturaTotal - 100);
+        scrollArrow.style.display = 'flex';
+        scrollArrow.style.opacity = '0.9';
 
-            // Mostra a seta apenas se não estiver no topo (desceu > 200px) e não estiver no final
-            if (scrollTopo > 200 && !noFinal) {
-                scrollArrow.style.display = 'flex';
-                scrollArrow.style.opacity = '1';
+        window.addEventListener('scroll', () => {
+            const scrollTopo = window.scrollY; 
+            const alturaTotal = document.documentElement.scrollHeight; 
+            const alturaJanela = window.innerHeight; 
+            
+            const noFinal = (scrollTopo + alturaJanela) >= (alturaTotal - 50);
+
+            if (!noFinal) {
+                scrollArrow.style.opacity = '0.9';
                 scrollArrow.style.pointerEvents = 'auto';
             } else {
                 scrollArrow.style.opacity = '0';
                 scrollArrow.style.pointerEvents = 'none';
-                
-                // Delay para o display none não cortar a animação de opacidade
-                setTimeout(() => {
-                    if (scrollArrow.style.opacity === '0') {
-                        scrollArrow.style.display = 'none';
-                    }
-                }, 300);
             }
         });
 
-        // Clique para descer suavemente
         scrollArrow.addEventListener('click', () => {
             window.scrollBy({
-                top: window.innerHeight * 0.7,
+                top: window.innerHeight * 0.6,
                 behavior: 'smooth'
             });
         });
