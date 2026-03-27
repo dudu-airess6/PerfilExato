@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerfilExato SENAI - Criar Perfil</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/formulario.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        SENAI • PLATAFORMA DE EMPREGABILIDADE TÉCNICA
+    </div>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">PerfilExato</div> 
+            
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="formulario.html" class="active">Formulário</a>
+                <a href="dashboard.html">Meu Perfil</a>
+                <a href="vagas.html">Vagas</a>
+            </nav>
+        </div>
+    </header>
+    <main class="form-wrapper">
+        <div class="form-container">
+            
+            <div class="form-header">
+                <h1>Crie o seu Perfil Técnico</h1>
+                <p>Preencha os dados abaixo. O nosso sistema cruzará as suas competências com as vagas disponíveis na indústria.</p>
+            </div>
+
+            <form id="formPerfil" class="perfil-form">
+                
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="curso">Curso Técnico SENAI</label>
+                    <select id="curso" name="curso" required>
+                        <option value="" disabled selected>Selecione o seu curso...</option>
+                        <option value="eletromecanica">Técnico em Eletromecânica</option>
+                        <option value="automacao">Técnico em Automação Industrial</option>
+                        <option value="eletrotecnica">Técnico em Eletrotécnica</option>
+                        <option value="mecanica">Técnico em Mecânica</option>
+                        <option value="ti">Técnico em Informática / TI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nível de Formação</label>
+                    <p class="help-text">Selecione a sua escolaridade atual:</p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <input type="radio" id="formacao1" name="formacao" value="Ensino Medio Incompleto">
+                            <label for="formacao1">Ensino Médio Incompleto</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="radio" id="formacao2" name="formacao" value="Ensino Medio Completo" checked>
+                            <label for="formacao2">Ensino Médio Completo</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="radio" id="formacao3" name="formacao" value="Cursando Superior">
+                            <label for="formacao3">Cursando Superior</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="radio" id="formacao4" name="formacao" value="Superior Completo">
+                            <label for="formacao4">Superior Completo</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="radio" id="formacao5" name="formacao" value="Pos-graduacao">
+                            <label for="formacao5">Pós-graduação / Especialização</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Selecione as suas Competências Práticas</label>
+                    <p class="help-text">Clique nas tecnologias e ferramentas que domina:</p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill1" name="skills" value="AutoCAD">
+                            <label for="skill1">AutoCAD</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill2" name="skills" value="CLP">
+                            <label for="skill2">CLP (Controladores)</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill3" name="skills" value="Eletricidade Predial">
+                            <label for="skill3">Eletricidade Predial</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill4" name="skills" value="Manutencao Preventiva">
+                            <label for="skill4">Manutenção Preventiva</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill5" name="skills" value="Solda MIG/MAG">
+                            <label for="skill5">Solda MIG/MAG</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill6" name="skills" value="Leitura de Projetos">
+                            <label for="skill6">Leitura de Projetos</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill7" name="skills" value="Pneumatica">
+                            <label for="skill7">Pneumática / Hidráulica</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill8" name="skills" value="Normas NR10">
+                            <label for="skill8">Normas NR10 / Segurança</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Analisar Meu Perfil &rarr;</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer-simple">
+        <p>&copy; 2026 PerfilExato • SENAI</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

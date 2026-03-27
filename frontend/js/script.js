@@ -1,94 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // --- 1. TELA INICIAL: UPLOAD DE CURRÍCULO (index.html atualizado) ---
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('fileInput');
-    const btnUpload = document.querySelector('.btn-outline-upload');
-    const hintText = document.querySelector('.upload-hint');
-
-    // Verifica se estamos na tela inicial
-    if (dropzone && fileInput && btnUpload && hintText) {
-        
-        // Abrir seletor de arquivos ao clicar no botão ou na caixa
-        btnUpload.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            fileInput.click();
+    // --- 1. TELA DE FORMULÁRIO (formulario.html) ---
+    // Esta parte vai capturar o clique do botão "Analisar Perfil" quando criarmos o formulário
+    const formPerfil = document.getElementById('formPerfil');
+    if (formPerfil) {
+        formPerfil.addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede a página de recarregar
+            
+            // Aqui futuramente enviaremos os dados para o C#, mas por agora:
+            // Simula o envio e vai para a tela do Scanner
+            window.location.href = "scanner.html";
         });
-
-        dropzone.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Prevenir comportamento padrão de abrir o PDF no navegador
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, false);
-        });
-
-        // Efeito visual ao arrastar o arquivo por cima
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropzone.addEventListener(eventName, () => {
-                dropzone.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                dropzone.style.borderColor = '#3A2E24';
-            }, false);
-        });
-
-        // Remove o efeito visual ao tirar o arquivo de cima
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, () => {
-                dropzone.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
-                dropzone.style.borderColor = 'rgba(58, 46, 36, 0.6)';
-            }, false);
-        });
-
-        // Quando o usuário solta o arquivo na caixa
-        dropzone.addEventListener('drop', (e) => {
-            handleFiles(e.dataTransfer.files);
-        }, false);
-
-        // Quando o usuário seleciona pela janela do Windows/Mac
-        fileInput.addEventListener('change', function() {
-            handleFiles(this.files);
-        });
-
-        // Função que processa o arquivo
-        function handleFiles(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                
-                // Verifica se é PDF
-                if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-                    
-                    // Feedback de sucesso na tela
-                    hintText.innerHTML = `✓ Arquivo anexado:<br>${file.name}`;
-                    hintText.style.color = '#3A2E24';
-                    hintText.style.fontWeight = '600';
-                    
-                    btnUpload.textContent = 'Processando...';
-                    btnUpload.style.backgroundColor = 'var(--text-dark)';
-                    btnUpload.style.color = 'var(--bg-light)';
-                    
-                    // Aguarda 1.5 segundos para o usuário ver que deu certo, depois vai para o Scanner
-                    setTimeout(() => {
-                        window.location.href = "scanner.html"; 
-                    }, 1500);
-
-                } else {
-                    // Erro se não for PDF
-                    alert('Por favor, selecione apenas arquivos no formato PDF.');
-                    hintText.textContent = 'Formato inválido. Tente novamente com um .pdf';
-                    hintText.style.color = 'red';
-                }
-            }
-        }
     }
 
     // --- 2. TELA: O SCANNER (scanner.html) ---
     const scannerScreen = document.querySelector('.scanner-card');
     if (scannerScreen) {
+        // Aguarda 3.5 segundos e redireciona para o Dashboard
         setTimeout(function() {
             window.location.href = "dashboard.html";
         }, 3500);
@@ -112,26 +40,26 @@ document.addEventListener("DOMContentLoaded", function() {
             btn.addEventListener('click', function() {
                 this.innerText = "✓ Candidatura Enviada";
                 this.style.backgroundColor = "#736B66";
+                this.style.borderColor = "#736B66";
                 this.disabled = true;
-                alert("Sucesso! Seu currículo foi enviado para análise da empresa com o selo PerfilExato SENAI.");
+                this.style.cursor = "default";
+                alert("Sucesso! O seu perfil foi enviado para análise da empresa com o selo PerfilExato SENAI.");
             });
         });
     }
-});
-// --- FUNCIONALIDADE DA SETA COM DETECÇÃO DE FINAL DE PÁGINA ---
-document.addEventListener('DOMContentLoaded', () => {
-    const scrollArrow = document.getElementById('scrollArrow');
 
+    // --- 5. FUNCIONALIDADE DA SETA DE SCROLL (Global) ---
+    const scrollArrow = document.getElementById('scrollArrow');
     if (scrollArrow) {
         window.addEventListener('scroll', () => {
-            const scrollTopo = window.scrollY; // O quanto você já desceu
+            const scrollTopo = window.scrollY; // O quanto já desceu
             const alturaTotal = document.documentElement.scrollHeight; // Altura total da página
-            const alturaJanela = window.innerHeight; // Altura da sua tela
+            const alturaJanela = window.innerHeight; // Altura da tela
             
-            // 1. Mostra a seta apenas se não estiver no topo (ex: desceu mais de 200px)
-            // 2. Esconde a seta se estiver chegando no fim (ex: faltam menos de 100px para o fim)
+            // Esconde a seta se estiver chegando no fim (faltando menos de 100px)
             const noFinal = (scrollTopo + alturaJanela) >= (alturaTotal - 100);
 
+            // Mostra a seta apenas se não estiver no topo (desceu > 200px) e não estiver no final
             if (scrollTopo > 200 && !noFinal) {
                 scrollArrow.style.display = 'flex';
                 scrollArrow.style.opacity = '1';
@@ -139,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 scrollArrow.style.opacity = '0';
                 scrollArrow.style.pointerEvents = 'none';
+                
                 // Delay para o display none não cortar a animação de opacidade
                 setTimeout(() => {
                     if (scrollArrow.style.opacity === '0') {
@@ -156,4 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    
 });
