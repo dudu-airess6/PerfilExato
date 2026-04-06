@@ -155,7 +155,9 @@ a {
 }
 
 /* Inputs de Texto e Select */
+/* Inputs de Texto, Email e Select */
 input[type="text"],
+input[type="email"],
 select {
     width: 100%;
     padding: 14px 16px;
@@ -170,12 +172,12 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 select:focus {
     outline: none;
     border-color: var(--bg-dark);
     background-color: #FFFFFF;
 }
-
 /* =========================================================
    GRELHA DE COMPETÊNCIAS E FORMAÇÃO (O Truque CSS)
    ========================================================= */
