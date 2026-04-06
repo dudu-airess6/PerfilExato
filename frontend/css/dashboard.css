@@ -1,9 +1,13 @@
 /* =========================================================
-   VARIÁVEIS GLOBAIS (Idênticas ao style.css)
+   VARIÁVEIS GLOBAIS (Atualizadas para a paleta Verde/Bege)
    ========================================================= */
 :root {
     --bg-light: #F4F1EA;
-    --bg-dark: #3A2E24;
+    /* O verde "um pouco mais claro" que definimos por último */
+    --primary-green-dark: #163321; 
+    --accent-green-mid: #2D5A43;
+    --success-green-bright: #87C036;
+    
     --text-dark: #3A2E24;
     --text-medium: #6B5E51;
     --text-light: #F4F1EA;
@@ -25,7 +29,7 @@ body {
 
 h1, h2, h3, .logo {
     font-family: var(--font-serif);
-    color: var(--text-dark);
+    color: var(--primary-green-dark); /* Títulos agora em Verde */
     margin: 0;
 }
 
@@ -38,7 +42,7 @@ a {
    TOPO E NAVEGAÇÃO
    ========================================================= */
 .top-bar {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green-dark); /* Verde no Topo */
     color: var(--text-light);
     text-align: center;
     font-size: 0.75rem;
@@ -50,7 +54,7 @@ a {
 
 .navbar {
     border-bottom: 1px solid var(--border-color);
-    background-color: var(--bg-light);
+    background-color: #FFFFFF; /* Fundo branco para destacar o menu */
 }
 
 .nav-container {
@@ -66,6 +70,7 @@ a {
     font-size: 1.75rem;
     font-weight: 900;
     letter-spacing: -0.5px;
+    color: var(--primary-green-dark);
 }
 
 .nav-links {
@@ -82,14 +87,15 @@ a {
     transition: all 0.2s;
 }
 
+/* Destaque Verde para a página ativa */
 .nav-links a.active {
-    color: var(--text-dark);
-    border-bottom: 2px solid var(--text-dark);
+    color: var(--primary-green-dark);
+    border-bottom: 2px solid var(--success-green-bright);
 }
 
 .nav-links a:hover {
-    color: var(--text-dark);
-    border-bottom: 2px solid var(--border-color); /* Linha aparece clarinha no hover */
+    color: var(--primary-green-dark);
+    border-bottom: 2px solid var(--border-color);
 }
 
 /* =========================================================
@@ -106,7 +112,7 @@ a {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(58, 46, 36, 0.05);
+    box-shadow: 0 10px 30px rgba(22, 51, 33, 0.08); /* Sombra levemente esverdeada */
 }
 
 .user-info {
@@ -119,7 +125,7 @@ a {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 1.5px;
-    color: var(--text-medium);
+    color: var(--success-green-bright); /* "Perfil Analisado" em destaque verde */
     margin-bottom: 8px;
 }
 
@@ -135,7 +141,7 @@ a {
     margin-top: 0;
 }
 
-/* Barra de Progresso */
+/* Barra de Progresso (Match) */
 .readiness-section {
     margin-top: 30px;
 }
@@ -155,13 +161,13 @@ a {
 }
 
 .match-bar {
-    background-color: var(--bg-dark);
+    background-color: var(--success-green-bright); /* Barra de progresso agora é verde sucesso */
     height: 100%;
     width: 85%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-light);
+    color: #FFFFFF;
     font-size: 0.85rem;
     font-weight: 600;
 }
@@ -180,8 +186,8 @@ a {
 }
 
 .skill-tag {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: #E6EAE8; /* Fundo cinza/verde bem clarinho */
+    color: var(--primary-green-dark);
     border: 1px solid var(--border-color);
     padding: 8px 16px;
     border-radius: 4px;
@@ -189,11 +195,11 @@ a {
     font-weight: 500;
 }
 
-/* Botão */
+/* Botão Principal */
 .btn-primary {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green-dark);
     color: var(--text-light);
-    border: 2px solid var(--bg-dark);
+    border: 2px solid var(--primary-green-dark);
     padding: 14px 28px;
     border-radius: 4px;
     font-family: var(--font-sans);
@@ -207,7 +213,9 @@ a {
 }
 
 .btn-primary:hover {
-    background-color: #2a2018;
+    background-color: var(--accent-green-mid);
+    border-color: var(--accent-green-mid);
+    transform: translateY(-2px);
 }
 
 /* Responsividade */

@@ -2,12 +2,14 @@
    VARIÁVEIS E CONFIGURAÇÕES GLOBAIS
    ========================================================= */
 :root {
-    --bg-light: #F4F1EA;
-    --bg-dark: #3A2E24;
-    --text-dark: #3A2E24;
-    --text-medium: #6B5E51;
-    --text-light: #F4F1EA;
-    --border-color: #D1C7B7;
+    --bg-light: #F5F5F5;   /* Alterado de Bege para Cinza muito claro/Branco Gelo */
+    --bg-dark: #163321;    /* Mantido Verde Floresta */
+    --text-dark: #163321;  /* Mantido Verde Floresta */
+    --text-medium: #4A5C4E; /* Mantido Cinza Esverdeado */
+    --text-light: #FFFFFF; /* Alterado de Bege para Branco Puro */
+    --border-color: #E0E0E0; /* Alterado de Bege escuro para Cinza Neutro */
+    
+    --success-green: #87C036; /* Mantido Verde Lima SENAI */
     
     --font-serif: 'Merriweather', serif;
     --font-sans: 'Inter', sans-serif;
@@ -74,10 +76,23 @@ a {
     align-items: center;
 }
 
+/* =========================================================
+   LOGO (Texto + Imagem)
+   ========================================================= */
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaço entre a logo e o texto */
     font-size: 1.75rem;
     font-weight: 900;
     letter-spacing: -0.5px;
+    text-decoration: none; /* Caso use a tag <a> */
+}
+
+.logo-icone {
+    height: 35px; /* Ajuste a altura conforme o tamanho da sua imagem */
+    width: auto;
+    object-fit: contain;
 }
 
 .nav-links {
@@ -96,7 +111,7 @@ a {
 
 .nav-links a.active {
     color: var(--text-dark);
-    border-bottom: 2px solid var(--text-dark);
+    border-bottom: 2px solid var(--success-green); /* Destaque em Verde Lima */
 }
 
 .nav-links a:hover {
@@ -172,7 +187,7 @@ a {
 }
 
 .btn-dark:hover {
-    background-color: #2a2018;
+    background-color: #244d34; /* Verde um pouco mais claro no hover */
 }
 
 .btn-outline {
@@ -182,7 +197,7 @@ a {
 }
 
 .btn-outline:hover {
-    background-color: rgba(58, 46, 36, 0.05);
+    background-color: rgba(22, 51, 33, 0.05);
 }
 
 .btn-large {
@@ -208,7 +223,7 @@ a {
     padding: 50px 40px;
     text-align: center;
     background-color: #FFFFFF;
-    box-shadow: 0 20px 40px rgba(58, 46, 36, 0.08);
+    box-shadow: 0 20px 40px rgba(22, 51, 33, 0.08);
 }
 
 .profile-cta-box h2 {
@@ -276,7 +291,7 @@ a {
     display: inline-block;
     width: 3px;
     height: 24px;
-    background-color: var(--text-dark);
+    background-color: var(--success-green); /* Detalhe em Verde Lima */
     margin-right: 12px;
 }
 
@@ -315,18 +330,20 @@ a {
 
 .cta p {
     font-size: 1.1rem;
-    color: #B4A99C; 
+    color: #CCCCCC; /* Alterado de Bege/Marrom para Cinza Claro */
     margin-bottom: 40px;
 }
 
 .btn-light {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    border: 2px solid var(--bg-light);
+    background-color: var(--success-green); /* Botão de ação em Verde Lima */
+    color: var(--bg-dark);
+    border: 2px solid var(--success-green);
+    font-weight: 700;
 }
 
 .btn-light:hover {
-    background-color: #e8e4db;
+    background-color: #9bd644;
+    border-color: #9bd644;
 }
 
 .footer {
@@ -339,7 +356,7 @@ a {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     gap: 60px;
-    border-top: 1px solid rgba(244, 241, 234, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Alterado de tom Bege para Branco/Cinza Translúcido */
     padding-top: 60px;
     margin-bottom: 40px;
 }
@@ -352,7 +369,7 @@ a {
 }
 
 .footer-brand p {
-    color: #B4A99C;
+    color: #CCCCCC; /* Alterado de Bege/Marrom para Cinza Claro */
     font-size: 0.9rem;
     max-width: 320px;
 }
@@ -372,24 +389,24 @@ a {
 }
 
 .footer-nav a, .footer-contact p {
-    color: #B4A99C;
+    color: #CCCCCC; /* Alterado de Bege/Marrom para Cinza Claro */
     font-size: 0.9rem;
     margin: 0;
 }
 
 .footer-nav a:hover {
-    color: var(--text-light);
+    color: var(--success-green); /* Hover do rodapé em verde lima */
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(244, 241, 234, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Alterado para Branco Translúcido */
     padding-top: 24px;
     text-align: center;
 }
 
 .footer-bottom p {
     margin: 0;
-    color: #8c8173;
+    color: #999999; /* Alterado de Marrom acinzentado para Cinza Neutro */
     font-size: 0.8rem;
 }
 
@@ -422,12 +439,12 @@ a {
     right: 30px;
     width: 50px;
     height: 50px;
-    background-color: #3A2E24; 
+    background-color: var(--success-green); 
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 15px rgba(58, 46, 36, 0.2);
+    box-shadow: 0 6px 15px rgba(22, 51, 33, 0.3);
     cursor: pointer;
     z-index: 1000; 
     opacity: 0.9;
@@ -438,7 +455,7 @@ a {
 .scroll-arrow:hover {
     opacity: 1;
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(58, 46, 36, 0.3);
+    background-color: var(--success-green);
 }
 
 @keyframes bounceArrow {
@@ -453,5 +470,42 @@ a {
         height: 40px;
         bottom: 20px;
         right: 20px;
+    }
+}
+/* =========================================================
+   MEETING BANNER (Transição Features -> CTA)
+   ========================================================= */
+#meeting-banner {
+    width: 100%;
+    background-color: var(--bg-light); /* Mantém a consistência com o fundo do topo */
+    overflow: hidden;
+    margin: 0; /* Remove margens extras para não conflitar com o padding do Features */
+}
+
+#meeting-banner .container-full {
+    width: 100%;
+    max-width: 100%; /* Garante que a imagem toque nas bordas laterais da tela */
+}
+
+.meeting-img {
+    width: 100%;
+    height: 450px; /* Transforma a foto em um banner panorâmico */
+    object-fit: cover; /* Preenche o espaço sem achatar ou distorcer a imagem */
+    object-position: center 30%; /* Foca um pouco mais para cima para enquadrar os rostos */
+    display: block;
+}
+
+/* =========================================================
+   RESPONSIVIDADE DO BANNER
+   ========================================================= */
+@media (max-width: 900px) {
+    .meeting-img {
+        height: 300px; /* Reduz a altura em tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    .meeting-img {
+        height: 200px; /* Reduz a altura em smartphones para não ocupar a tela toda */
     }
 }

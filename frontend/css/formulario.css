@@ -1,9 +1,12 @@
 /* =========================================================
-   VARIÁVEIS GLOBAIS
+   VARIÁVEIS GLOBAIS (Paleta Verde Industrial / Bege)
    ========================================================= */
 :root {
     --bg-light: #F4F1EA;
-    --bg-dark: #3A2E24;
+    --primary-green: #163321;   /* Verde Floresta (Principal) */
+    --accent-green: #2D5A43;    /* Verde Médio (Hover/Foco) */
+    --success-green: #87C036;   /* Verde Lima (Destaques e Sucesso) */
+    
     --text-dark: #3A2E24;
     --text-medium: #6B5E51;
     --text-light: #F4F1EA;
@@ -23,22 +26,18 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Remove a barra de rolagem visualmente em todos os navegadores */
+/* Remove a barra de rolagem visualmente */
 html, body {
-    scrollbar-width: none;            /* Firefox */
-    -ms-overflow-style: none;         /* IE e Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
-
-html::-webkit-scrollbar, 
-body::-webkit-scrollbar {
-    display: none;                    /* Chrome, Safari e Opera */
-    width: 0;
-    height: 0;
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
 }
 
 h1, h2, h3, .logo {
     font-family: var(--font-serif);
-    color: var(--text-dark);
+    color: var(--primary-green); /* Títulos em Verde Floresta */
     margin: 0;
 }
 
@@ -51,18 +50,19 @@ a {
    TOPO E NAVEGAÇÃO
    ========================================================= */
 .top-bar {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green);
     color: var(--text-light);
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 1px;
     padding: 8px 0;
+    text-transform: uppercase;
 }
 
 .navbar {
     border-bottom: 1px solid var(--border-color);
-    background-color: var(--bg-light);
+    background-color: #FFFFFF; /* Branco para destacar o menu */
 }
 
 .nav-container {
@@ -78,6 +78,7 @@ a {
     font-size: 1.75rem;
     font-weight: 900;
     letter-spacing: -0.5px;
+    color: var(--primary-green);
 }
 
 .nav-links {
@@ -94,10 +95,14 @@ a {
     transition: all 0.2s;
 }
 
-/* Traço claro idêntico para Hover e para a página Ativa */
-.nav-links a:hover,
+/* Traço Verde Sucesso para a página Ativa */
 .nav-links a.active {
-    color: var(--text-dark);
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--success-green);
+}
+
+.nav-links a:hover {
+    color: var(--primary-green);
     border-bottom: 2px solid var(--border-color);
 }
 
@@ -117,7 +122,7 @@ a {
     padding: 50px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 10px 30px rgba(58, 46, 36, 0.05);
+    box-shadow: 0 10px 30px rgba(22, 51, 33, 0.05);
 }
 
 .form-header {
@@ -145,6 +150,7 @@ a {
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 0.95rem;
+    color: var(--primary-green);
 }
 
 .help-text {
@@ -154,7 +160,6 @@ a {
     margin-bottom: 16px;
 }
 
-/* Inputs de Texto e Select */
 /* Inputs de Texto, Email e Select */
 input[type="text"],
 input[type="email"],
@@ -168,18 +173,20 @@ select {
     font-size: 1rem;
     color: var(--text-dark);
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 select:focus {
     outline: none;
-    border-color: var(--bg-dark);
+    border-color: var(--accent-green);
     background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(45, 90, 67, 0.1);
 }
+
 /* =========================================================
-   GRELHA DE COMPETÊNCIAS E FORMAÇÃO (O Truque CSS)
+   GRELHA DE COMPETÊNCIAS (Tags Selecionáveis)
    ========================================================= */
 .skills-grid {
     display: flex;
@@ -187,7 +194,6 @@ select:focus {
     gap: 12px;
 }
 
-/* Esconde tanto as checkboxes quanto os radio buttons padrão do navegador */
 .skill-item input[type="checkbox"],
 .skill-item input[type="radio"] {
     display: none; 
@@ -208,19 +214,19 @@ select:focus {
     margin: 0;
 }
 
-/* Efeito Hover */
 .skill-item label:hover {
-    border-color: var(--bg-dark);
-    color: var(--text-dark);
+    border-color: var(--accent-green);
+    color: var(--primary-green);
+    background-color: rgba(135, 192, 54, 0.05);
 }
 
-/* ESTADO SELECIONADO: Quando checkbox ou radio está checked, muda a cor do botão */
+/* ESTADO SELECIONADO: Verde Floresta com sombra */
 .skill-item input[type="checkbox"]:checked + label,
 .skill-item input[type="radio"]:checked + label {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green);
     color: var(--text-light);
-    border-color: var(--bg-dark);
-    box-shadow: 0 4px 10px rgba(58, 46, 36, 0.2);
+    border-color: var(--primary-green);
+    box-shadow: 0 4px 10px rgba(22, 51, 33, 0.2);
 }
 
 /* =========================================================
@@ -232,7 +238,7 @@ select:focus {
 }
 
 .btn-submit {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green);
     color: var(--text-light);
     border: none;
     padding: 18px 40px;
@@ -240,13 +246,15 @@ select:focus {
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
     width: 100%;
     font-family: var(--font-sans);
 }
 
 .btn-submit:hover {
-    background-color: #2a2018;
+    background-color: var(--accent-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(22, 51, 33, 0.2);
 }
 
 /* =========================================================
@@ -255,15 +263,13 @@ select:focus {
 .footer-simple {
     text-align: center;
     padding: 40px 20px;
-    background-color: var(--bg-dark); /* Fundo marrom padrão */
-    color: var(--text-light); /* Texto claro para dar contraste */
+    background-color: var(--primary-green);
+    color: var(--text-light);
     font-size: 0.85rem;
 }
+
 /* =========================================================
-   SETA FLUTUANTE (INDICADOR DE SCROLL)
-   ========================================================= */
-/* =========================================================
-   SETA FLUTUANTE (INDICADOR DE SCROLL)
+   SETA FLUTUANTE
    ========================================================= */
 .scroll-arrow {
     position: fixed;
@@ -271,23 +277,23 @@ select:focus {
     right: 30px;
     width: 50px;
     height: 50px;
-    background-color: #3A2E24; 
+    background-color: var(--primary-green); 
     border-radius: 50%;
-    display: flex; /* Mudado de none para flex para aparecer logo */
+    display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 15px rgba(58, 46, 36, 0.2);
+    box-shadow: 0 6px 15px rgba(22, 51, 33, 0.2);
     cursor: pointer;
     z-index: 1000; 
-    opacity: 0.9; /* Mudado de 0 para 0.9 */
+    opacity: 0.9;
     transition: all 0.3s ease;
     animation: bounceArrow 2s infinite;
 }
 
 .scroll-arrow:hover {
     opacity: 1;
+    background-color: var(--accent-green);
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(58, 46, 36, 0.3);
 }
 
 @keyframes bounceArrow {
@@ -297,10 +303,6 @@ select:focus {
 }
 
 @media (max-width: 600px) {
-    .scroll-arrow {
-        width: 40px;
-        height: 40px;
-        bottom: 20px;
-        right: 20px;
-    }
+    .form-container { padding: 30px 20px; }
+    .scroll-arrow { width: 40px; height: 40px; }
 }
