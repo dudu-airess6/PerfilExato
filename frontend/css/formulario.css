@@ -1,112 +1,4 @@
 /* =========================================================
-   VARIÁVEIS GLOBAIS (Paleta Verde Industrial / Bege)
-   ========================================================= */
-:root {
-    --bg-light: #F4F1EA;
-    --primary-green: #163321;   /* Verde Floresta (Principal) */
-    --accent-green: #2D5A43;    /* Verde Médio (Hover/Foco) */
-    --success-green: #87C036;   /* Verde Lima (Destaques e Sucesso) */
-    
-    --text-dark: #3A2E24;
-    --text-medium: #6B5E51;
-    --text-light: #F4F1EA;
-    --border-color: #D1C7B7;
-    
-    --font-serif: 'Merriweather', serif;
-    --font-sans: 'Inter', sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    font-family: var(--font-sans);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* Remove a barra de rolagem visualmente */
-html, body {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-html::-webkit-scrollbar, body::-webkit-scrollbar {
-    display: none;
-}
-
-h1, h2, h3, .logo {
-    font-family: var(--font-serif);
-    color: var(--primary-green); /* Títulos em Verde Floresta */
-    margin: 0;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* =========================================================
-   TOPO E NAVEGAÇÃO
-   ========================================================= */
-.top-bar {
-    background-color: var(--primary-green);
-    color: var(--text-light);
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 8px 0;
-    text-transform: uppercase;
-}
-
-.navbar {
-    border-bottom: 1px solid var(--border-color);
-    background-color: #FFFFFF; /* Branco para destacar o menu */
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.75rem;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    color: var(--primary-green);
-}
-
-.nav-links {
-    display: flex;
-    gap: 32px;
-}
-
-.nav-links a {
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--text-medium);
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-}
-
-/* Traço Verde Sucesso para a página Ativa */
-.nav-links a.active {
-    color: var(--primary-green);
-    border-bottom: 2px solid var(--success-green);
-}
-
-.nav-links a:hover {
-    color: var(--primary-green);
-    border-bottom: 2px solid var(--border-color);
-}
-
-/* =========================================================
    FORMULÁRIO
    ========================================================= */
 .form-wrapper {
@@ -150,7 +42,7 @@ a {
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 0.95rem;
-    color: var(--primary-green);
+    color: var(--primary-green-dark); /* Usando a variável do global.css */
 }
 
 .help-text {
@@ -180,7 +72,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 select:focus {
     outline: none;
-    border-color: var(--accent-green);
+    border-color: var(--accent-green-mid); /* Usando a variável do global.css */
     background-color: #FFFFFF;
     box-shadow: 0 0 0 3px rgba(45, 90, 67, 0.1);
 }
@@ -215,17 +107,17 @@ select:focus {
 }
 
 .skill-item label:hover {
-    border-color: var(--accent-green);
-    color: var(--primary-green);
+    border-color: var(--accent-green-mid);
+    color: var(--primary-green-dark);
     background-color: rgba(135, 192, 54, 0.05);
 }
 
 /* ESTADO SELECIONADO: Verde Floresta com sombra */
 .skill-item input[type="checkbox"]:checked + label,
 .skill-item input[type="radio"]:checked + label {
-    background-color: var(--primary-green);
+    background-color: var(--primary-green-dark);
     color: var(--text-light);
-    border-color: var(--primary-green);
+    border-color: var(--primary-green-dark);
     box-shadow: 0 4px 10px rgba(22, 51, 33, 0.2);
 }
 
@@ -238,7 +130,7 @@ select:focus {
 }
 
 .btn-submit {
-    background-color: var(--primary-green);
+    background-color: var(--primary-green-dark);
     color: var(--text-light);
     border: none;
     padding: 18px 40px;
@@ -252,57 +144,16 @@ select:focus {
 }
 
 .btn-submit:hover {
-    background-color: var(--accent-green);
+    background-color: var(--accent-green-mid);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(22, 51, 33, 0.2);
 }
 
 /* =========================================================
-   RODAPÉ SIMPLES
+   RESPONSIVIDADE ESPECÍFICA DO FORMULÁRIO
    ========================================================= */
-.footer-simple {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: var(--primary-green);
-    color: var(--text-light);
-    font-size: 0.85rem;
-}
-
-/* =========================================================
-   SETA FLUTUANTE
-   ========================================================= */
-.scroll-arrow {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background-color: var(--primary-green); 
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 15px rgba(22, 51, 33, 0.2);
-    cursor: pointer;
-    z-index: 1000; 
-    opacity: 0.9;
-    transition: all 0.3s ease;
-    animation: bounceArrow 2s infinite;
-}
-
-.scroll-arrow:hover {
-    opacity: 1;
-    background-color: var(--accent-green);
-    transform: scale(1.1);
-}
-
-@keyframes bounceArrow {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-8px); }
-    60% { transform: translateY(-4px); }
-}
-
 @media (max-width: 600px) {
-    .form-container { padding: 30px 20px; }
-    .scroll-arrow { width: 40px; height: 40px; }
+    .form-container { 
+        padding: 30px 20px; 
+    }
 }

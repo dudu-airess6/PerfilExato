@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/vagas.css">
 </head>
 <body>
@@ -19,7 +19,10 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <div class="logo">PerfilExato</div>
+          <div class="logo">
+                <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
+                PerfilExato
+            </div>
             <nav class="nav-links">
                 <a href="index.html">Início</a>
                 <a href="formulario.html">Formulário</a>
@@ -67,7 +70,24 @@
 
                 <button class="btn-apply">Candidatar-se com PerfilExato</button>
             </div>
-        </div>
+
+            <div class="job-card">
+                <div class="match-badge">92% Compatível</div>
+                <h2 class="job-title">Desenvolvedor Full Stack Júnior</h2>
+                <p class="company-name">InovaTech Solutions</p>
+                
+                <div class="job-description">
+                    <p class="match-reason"><strong>Por que este match?</strong> Você possui as habilidades fundamentais de TI exigidas pela vaga:</p>
+                    <div class="job-skills">
+                        <span class="skill-match">✓ Frontend (HTML, CSS, React)</span>
+                        <span class="skill-match">✓ Backend (Node.js, APIs)</span>
+                        <span class="skill-match">✓ Banco de Dados (MySQL / PostgreSQL)</span>
+                    </div>
+                </div>
+
+                <button class="btn-apply">Candidatar-se com PerfilExato</button>
+            </div>
+            </div>
     </main>
 
     <script src="js/script.js"></script>

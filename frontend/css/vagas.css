@@ -1,90 +1,4 @@
 /* =========================================================
-   VARIÁVEIS GLOBAIS
-   ========================================================= */
-:root {
-    --bg-light: #F5F5F5;   /* Alterado para Cinza muito claro/Branco Gelo */
-    --bg-dark: #163321;    /* Mantido Verde Floresta */
-    --text-dark: #163321;  /* Mantido Verde Floresta */
-    --text-medium: #4A5C4E; /* Mantido Cinza Esverdeado */
-    --text-light: #FFFFFF; /* Alterado para Branco Puro */
-    --border-color: #E0E0E0; /* Alterado para Cinza Neutro */
-    
-    --success-green: #87C036; /* Verde Lima SENAI para destaques */
-    
-    --font-serif: 'Merriweather', serif;
-    --font-sans: 'Inter', sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    font-family: var(--font-sans);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* =========================================================
-   TOPO E NAVEGAÇÃO
-   ========================================================= */
-.top-bar {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 8px 0;
-    text-transform: uppercase;
-}
-
-.navbar {
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--bg-light);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-family: var(--font-serif);
-    font-size: 1.75rem;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-}
-
-.nav-links {
-    display: flex;
-    gap: 32px;
-}
-
-.nav-links a {
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--text-medium);
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-    text-decoration: none;
-}
-
-.nav-links a.active {
-    color: var(--text-dark);
-    border-bottom: 2px solid var(--success-green); /* Destaque em Verde Lima */
-}
-
-.nav-links a:hover {
-    color: var(--text-dark);
-    border-bottom: 2px solid var(--border-color);
-}
-
-/* =========================================================
    CONTEÚDO DAS VAGAS
    ========================================================= */
 .vagas-wrapper {
@@ -94,7 +8,7 @@ body {
 }
 
 .filter-alert {
-    background-color: var(--bg-dark);
+    background-color: var(--primary-green-dark); /* Atualizado para o Verde Floresta */
     color: var(--text-light);
     padding: 12px 20px;
     border-radius: 4px;
@@ -117,12 +31,12 @@ body {
 
 .job-card:hover {
     transform: translateY(-2px);
-    border-color: var(--text-dark);
+    border-color: var(--primary-green-dark); /* Atualizado */
 }
 
 .job-title {
     font-family: var(--font-serif);
-    color: var(--text-dark);
+    color: var(--primary-green-dark); /* Atualizado */
     margin: 0 0 5px 0;
     font-size: 1.6rem;
     max-width: 75%;
@@ -138,8 +52,8 @@ body {
     position: absolute;
     top: 30px;
     right: 30px;
-    background-color: var(--success-green); /* Badge em Verde Lima */
-    color: var(--text-dark);                /* Texto escuro no fundo lima */
+    background-color: var(--success-green-bright); /* Atualizado para o Verde Lima */
+    color: var(--primary-green-dark);              /* Texto escuro no fundo lima */
     padding: 6px 14px;
     border-radius: 4px;
     font-weight: 700;
@@ -169,9 +83,9 @@ body {
 }
 
 .btn-apply {
-    background-color: var(--text-dark);
+    background-color: var(--primary-green-dark); /* Atualizado */
     color: var(--text-light);
-    border: 2px solid var(--text-dark);
+    border: 2px solid var(--primary-green-dark); /* Atualizado */
     padding: 14px 28px;
     border-radius: 4px;
     cursor: pointer;
@@ -179,14 +93,17 @@ body {
     font-size: 1rem;
     width: 100%;
     transition: all 0.2s;
+    font-family: var(--font-sans); /* Garante a fonte correta no botão */
 }
 
 .btn-apply:hover {
-    background-color: #244d34; /* Verde hover */
-    border-color: #244d34;
+    background-color: var(--accent-green-mid); /* Atualizado para o Verde Médio de hover */
+    border-color: var(--accent-green-mid);
 }
 
-/* Responsividade */
+/* =========================================================
+   RESPONSIVIDADE ESPECÍFICA DAS VAGAS
+   ========================================================= */
 @media (max-width: 600px) {
     .match-badge {
         position: static;
