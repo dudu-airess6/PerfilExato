@@ -2,12 +2,12 @@
    VARIÁVEIS GLOBAIS
    ========================================================= */
 :root {
-    --bg-light: #F4F1EA;
-    --bg-dark: #163321;    /* Alterado para Verde Floresta */
-    --text-dark: #163321;  /* Alterado para Verde Floresta */
-    --text-medium: #4A5C4E; /* Alterado para Cinza Esverdeado */
-    --text-light: #F4F1EA;
-    --border-color: #D1C7B7;
+    --bg-light: #F5F5F5;   /* Alterado para Cinza muito claro/Branco Gelo */
+    --bg-dark: #163321;    /* Mantido Verde Floresta */
+    --text-dark: #163321;  /* Mantido Verde Floresta */
+    --text-medium: #4A5C4E; /* Mantido Cinza Esverdeado */
+    --text-light: #FFFFFF; /* Alterado para Branco Puro */
+    --border-color: #E0E0E0; /* Alterado para Cinza Neutro */
     
     --success-green: #87C036; /* Verde Lima SENAI para destaques */
     
