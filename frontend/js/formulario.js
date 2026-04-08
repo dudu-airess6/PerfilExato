@@ -1,27 +1,43 @@
-// Captura o formulário pelo ID
-const formPerfil = document.getElementById('form-perfil');
+// Captura o formulário pelo ID correto do HTML
+const formPerfil = document.getElementById('formPerfil');
 
-formPerfil.addEventListener('submit', function(event) {
-    // Evita que a página recarregue ao enviar
-    event.preventDefault();
+if (formPerfil) {
+    formPerfil.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita recarregar a página
 
-    // Captura os valores dos campos (exemplo com nome e habilidades)
-    const nomeAluno = document.getElementById('nome').value;
-    // Supondo que as habilidades sejam digitadas separadas por vírgula
-    const skillsInput = document.getElementById('skills').value; 
-    
-    // Transforma o texto em um array (lista) e tira os espaços em branco
-    const skillsArray = skillsInput.split(',').map(skill => skill.trim());
+        // 1. Captura o Nome
+        const nomeAluno = document.getElementById('nome').value;
+        
+        // 2. Captura o Curso (para aparecer bonitinho no perfil)
+        const cursoSelect = document.getElementById('curso');
+        const areaFormacao = cursoSelect.options[cursoSelect.selectedIndex].text;
 
-    // Cria um objeto com os dados do usuário
-    const perfilUsuario = {
-        nome: nomeAluno,
-        competencias: skillsArray
-    };
+        // 3. Captura apenas as Hard Skills (Checkboxes) que foram marcadas
+        const skillsMarcadas = document.querySelectorAll('input[name="skills"]:checked');
+        // Transforma a lista de caixas marcadas em uma lista de textos
+        const skillsArray = Array.from(skillsMarcadas).map(checkbox => checkbox.value);
 
-    // Salva no LocalStorage transformando o objeto em texto (JSON)
-    localStorage.setItem('dados_perfilExato', JSON.stringify(perfilUsuario));
+        // Cria um objeto com os dados
+        const perfilUsuario = {
+            nome: nomeAluno,
+            areaFormacao: areaFormacao,
+            competencias: skillsArray
+        };
 
-    // Redireciona o usuário automaticamente para a página de Perfil
-    window.location.href = 'dashboard.html';
-});
+        // Salva no LocalStorage
+        localStorage.setItem('dados_perfilExato', JSON.stringify(perfilUsuario));
+
+        // 4. Efeito do botão carregando (movido do script.js para cá)
+        const btnSubmit = formPerfil.querySelector('.btn-submit');
+        if (btnSubmit) {
+            btnSubmit.innerHTML = "A processar dados...";
+            btnSubmit.style.opacity = "0.8";
+            btnSubmit.style.cursor = "wait";
+        }
+
+        // Aguarda 800ms e manda para o Scanner
+        setTimeout(() => {
+            window.location.href = "scanner.html";
+        }, 800);
+    });
+}

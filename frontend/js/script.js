@@ -1,45 +1,24 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // --- 1. TELA DE FORMULÁRIO (formulario.html) ---
-    // Vai capturar o formulário pelo ID que acabámos de adicionar
-    const formPerfil = document.getElementById('formPerfil'); 
-    
-    if (formPerfil) {
-        formPerfil.addEventListener('submit', function(e) {
-            e.preventDefault(); // Impede o comportamento padrão de recarregar a página
-            
-            const btnSubmit = formPerfil.querySelector('.btn-submit');
-            
-            // Efeito visual de carregamento
-            if (btnSubmit) {
-                btnSubmit.innerHTML = "A processar dados...";
-                btnSubmit.style.opacity = "0.8";
-                btnSubmit.style.cursor = "wait";
-            }
-            
-            // Aguarda quase 1 segundo e manda para o Scanner
-            setTimeout(() => {
-                window.location.href = "scanner.html";
-            }, 800);
-        });
-    }
+    // (O Bloco 1 do formulário foi removido daqui pois agora está a ser controlado pelo formulario.js)
 
     // --- 2. TELA: O SCANNER (scanner.html) ---
     // Se a página tiver o cartão do scanner, significa que estamos no scanner.html
     const scannerScreen = document.querySelector('.scanner-card');
     if (scannerScreen) {
-        // Aguarda 3.5 segundos (tempo da animação) e redireciona para o Dashboard (Meu Perfil)
+        // Aguarda 3.5 segundos (tempo da animação) e redireciona para o Perfil
         setTimeout(function() {
-            window.location.href = "dashboard.html";
+            window.location.href = "perfil.html"; // <-- CORRIGIDO PARA perfil.html
         }, 3500);
     }
 
-    // --- 3. TELA: DASHBOARD (dashboard.html) ---
+    // --- 3. TELA: DASHBOARD/PERFIL (perfil.html) ---
     const dashboardCard = document.querySelector('.dashboard-card');
     if (dashboardCard) {
         const btnVagas = dashboardCard.querySelector('.btn-primary');
         if (btnVagas) {
-            btnVagas.addEventListener('click', function() {
+            btnVagas.addEventListener('click', function(e) {
+                // Apenas por segurança, se já houver um <a> no HTML, não impede
                 window.location.href = "vagas.html";
             });
         }
