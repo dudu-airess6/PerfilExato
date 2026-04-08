@@ -1,43 +1,37 @@
-// Captura o formulário pelo ID correto do HTML
 const formPerfil = document.getElementById('formPerfil');
 
 if (formPerfil) {
     formPerfil.addEventListener('submit', function(event) {
-        event.preventDefault(); // Evita recarregar a página
+        event.preventDefault();
 
-        // 1. Captura o Nome
-        const nomeAluno = document.getElementById('nome').value;
-        
-        // 2. Captura o Curso (para aparecer bonitinho no perfil)
-        const cursoSelect = document.getElementById('curso');
-        const areaFormacao = cursoSelect.options[cursoSelect.selectedIndex].text;
+        const nome = document.getElementById('nome').value;
+        const curso = document.getElementById('curso').value;
+        const formacao = document.querySelector('input[name="formacao"]:checked').value;
 
-        // 3. Captura apenas as Hard Skills (Checkboxes) que foram marcadas
-        const skillsMarcadas = document.querySelectorAll('input[name="skills"]:checked');
-        // Transforma a lista de caixas marcadas em uma lista de textos
-        const skillsArray = Array.from(skillsMarcadas).map(checkbox => checkbox.value);
+        // Captura todas as Hard Skills marcadas
+        const hardSkills = Array.from(document.querySelectorAll('input[name="skills"]:checked'))
+                                .map(el => el.value);
 
-        // Cria um objeto com os dados
+        // Captura todas as Soft Skills marcadas (ADICIONADO)
+        const softSkills = Array.from(document.querySelectorAll('input[name="soft_skills"]:checked'))
+                                .map(el => el.value);
+
         const perfilUsuario = {
-            nome: nomeAluno,
-            areaFormacao: areaFormacao,
-            competencias: skillsArray
+            nome: nome,
+            curso: curso,
+            formacao: formacao,
+            competencias: hardSkills, // Técnicas
+            comportamentais: softSkills // Comportamentais
         };
 
-        // Salva no LocalStorage
         localStorage.setItem('dados_perfilExato', JSON.stringify(perfilUsuario));
 
-        // 4. Efeito do botão carregando (movido do script.js para cá)
-        const btnSubmit = formPerfil.querySelector('.btn-submit');
-        if (btnSubmit) {
-            btnSubmit.innerHTML = "A processar dados...";
-            btnSubmit.style.opacity = "0.8";
-            btnSubmit.style.cursor = "wait";
-        }
-
-        // Aguarda 800ms e manda para o Scanner
+        // Efeito visual antes de ir para o scanner
+        const btn = formPerfil.querySelector('.btn-submit');
+        btn.innerHTML = "Analisando Perfil...";
+        
         setTimeout(() => {
-            window.location.href = "scanner.html";
+            window.location.href = 'scanner.html';
         }, 800);
     });
 }
