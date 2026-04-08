@@ -24,13 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    if (!dadosAluno) {
+    // --- O NOVO ESTADO VAZIO MELHORADO ---
+    // Verifica se os dados não existem ou se estão vazios
+    if (!dadosAluno || !dadosAluno.competencias) {
         containerVagas.innerHTML = `
-            <div style="text-align: center; padding: 40px; background: white; border-radius: 8px;">
-                <h2 style="margin-bottom: 15px;">🔍 Onde está o seu perfil?</h2>
-                <a href="formulario.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Preencher Formulário &rarr;</a>
+            <div style="text-align: center; padding: 50px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 40px auto;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">🔍</div>
+                <h2 style="margin-bottom: 10px; color: #333;">Onde está o seu perfil?</h2>
+                <p style="margin-bottom: 30px; color: #666; line-height: 1.5; font-size: 1.1em;">
+                    Não conseguimos encontrar os seus dados. Para acessar as vagas compatíveis e ver a sua compatibilidade, preencha o formulário primeiro.
+                </p>
+                <a href="formulario.html" class="btn-primary" style="text-decoration: none; display: inline-block; padding: 12px 28px; border-radius: 6px; background-color: var(--primary-green-dark); color: white; border: none; font-weight: bold; transition: background-color 0.3s;">
+                    Preencher Meu Perfil &rarr;
+                </a>
             </div>`;
-        return;
+        return; // Pára a execução do código aqui para não dar erro
     }
 
     let htmlVagas = '';
