@@ -1,0 +1,71 @@
+.login-body {
+    background-color: #f0f2f5; /* Um cinza um pouco mais moderno, estilo sistema web */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px; /* Bordas arredondadas e suaves */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra mais difusa e flutuante */
+    width: 100%;
+    max-width: 420px;
+    border-top: 6px solid #2e7d32; /* Linha de destaque verde no topo */
+}
+
+.input-group {
+    margin-bottom: 20px; /* Mais respiro entre os campos */
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; /* Negrito mais elegante */
+    color: #333;
+    font-size: 0.95em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px; /* Inputs maiores e mais confortáveis para digitar */
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px; 
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #fafafa;
+    transition: all 0.3s ease; /* Animação suave para as mudanças de cor */
+}
+
+/* O SEGREDO DO FORMULÁRIO MODERNO: O Efeito de Foco (quando o utilizador clica no campo) */
+.input-group input:focus {
+    border-color: #2e7d32;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15); /* Um "brilho" verde em volta do input */
+}
+
+.toggle-text {
+    text-align: center;
+    margin-top: 25px;
+    color: #666;
+    font-size: 0.95em;
+    border-top: 1px solid #eee; /* Linha separadora sutil antes do link */
+    padding-top: 20px;
+}
+
+.toggle-link {
+    color: #2e7d32;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+    color: #1b5e20; /* Fica um verde mais escuro ao passar o rato */
+}
