@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (emailDigitado === contaSalva.email && senhaDigitada === contaSalva.senha) {
-                // Sucesso! Vai para a página principal
-                window.location.href = 'index.html';
-            } else {
+           if (emailDigitado === contaSalva.email && senhaDigitada === contaSalva.senha) {
+            // Sucesso! Vai direto para o formulário
+            window.location.href = 'formulario.html';
+        } else {
                 alert('E-mail ou senha incorretos!');
             }
         });

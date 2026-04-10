@@ -1,27 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. AUTO-PREENCHIMENTO (Puxando do Login)
+    // 1. BARREIRA DE SEGURANÇA E AUTO-PREENCHIMENTO
     // ==========================================
     const contaAtiva = JSON.parse(localStorage.getItem('conta_perfilExato'));
     
-    if (contaAtiva) {
-        const campoNome = document.getElementById('nome'); 
-        const campoEmail = document.getElementById('email'); 
+    // SE NÃO ESTIVER LOGADO: Avisa e expulsa para a tela de login
+    if (!contaAtiva) {
+        alert("Para preencher o seu perfil e acessar as vagas, você precisa criar uma conta ou fazer login primeiro.");
+        window.location.href = 'login.html';
+        return; // O 'return' impede que o resto da página carregue
+    }
 
-        // Amarra o NOME
-        if (campoNome && contaAtiva.nome) {
-            campoNome.value = contaAtiva.nome;
-            campoNome.readOnly = true;
-            campoNome.style.backgroundColor = "#f0f0f0";
-        }
+    // SE ESTIVER LOGADO: Preenche os dados automaticamente
+    const campoNome = document.getElementById('nome'); 
+    const campoEmail = document.getElementById('email'); 
 
-        // Amarra o E-MAIL
-        if (campoEmail && contaAtiva.email) {
-            campoEmail.value = contaAtiva.email;
-            campoEmail.readOnly = true;
-            campoEmail.style.backgroundColor = "#f0f0f0";
-        }
+    if (campoNome && contaAtiva.nome) {
+        campoNome.value = contaAtiva.nome;
+        campoNome.readOnly = true;
+        campoNome.style.backgroundColor = "#f0f0f0";
+    }
+
+    if (campoEmail && contaAtiva.email) {
+        campoEmail.value = contaAtiva.email;
+        campoEmail.readOnly = true;
+        campoEmail.style.backgroundColor = "#f0f0f0";
     }
 
     // ==========================================
