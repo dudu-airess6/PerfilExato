@@ -69,3 +69,25 @@
     text-decoration: underline;
     color: #1b5e20; /* Fica um verde mais escuro ao passar o rato */
 }
+/* ESTILO DO BOTÃO PRINCIPAL (Entrar / Criar Conta) */
+.btn-primary {
+    background-color: #2e7d32; /* O seu verde escuro padrão */
+    color: #ffffff; /* Texto branco */
+    border: none;
+    padding: 14px 20px;
+    font-size: 1.05em;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Efeito ao passar o rato (fica um verde mais escuro) */
+.btn-primary:hover {
+    background-color: #1b5e20; 
+}
+
+/* Efeito de "clique" (o botão afunda ligeiramente) */
+.btn-primary:active {
+    transform: scale(0.98);
+}
