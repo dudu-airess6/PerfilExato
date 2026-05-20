@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- CÁLCULO DE PRONTIDÃO (LÓGICA ORIGINAL PRESERVADA) ---
+    // --- CÁLCULO DE PRONTIDÃO (MANTIDO) ---
     let pontuacaoProntidao = 0;
     if (dadosSalvos.formacao) {
         pontuacaoProntidao += dadosSalvos.formacao.includes("Incompleto") ? 10 : 20;
@@ -29,11 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pontuacaoProntidao >= 80) { corBarra = '#2e7d32'; textoStatus = 'Excelente'; }
     else if (pontuacaoProntidao >= 50) { corBarra = '#f57c00'; textoStatus = 'Em Desenvolvimento'; }
 
-    // --- MONTAGEM DAS TAGS ---
     const hardTags = qtdHard > 0 ? dadosSalvos.competencias.map(s => `<span class="tag-skill hard">${s}</span>`).join('') : '<p class="no-data">Nenhuma competência técnica.</p>';
     const softTags = qtdSoft > 0 ? dadosSalvos.comportamentais.map(s => `<span class="tag-skill soft">${s}</span>`).join('') : '<p class="no-data">Nenhuma competência comportamental.</p>';
 
-    // --- INJEÇÃO DO HTML ---
+    // --- INJEÇÃO DO HTML ATUALIZADO ---
     containerPerfil.innerHTML = `
         <div class="dashboard-card">
             <div class="profile-header">
@@ -41,11 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="user-meta">
                     <p class="eyebrow">ESTUDANTE SENAI</p>
                     <h1>${dadosSalvos.nome}</h1>
-                    <p class="main-course">${dadosSalvos.curso.toUpperCase().replace(/-/g, ' ')}</p>
                 </div>
             </div>
 
             <div class="info-grid">
+                <div class="info-group">
+                    <label>Curso Técnico</label>
+                    <p>${dadosSalvos.curso.toUpperCase().replace(/-/g, ' ')}</p>
+                </div>
                 <div class="info-group">
                     <label>CPF</label>
                     <p>${dadosSalvos.cpf}</p>
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <div class="profile-footer">
-                <a href="vagas.html" class="btn-success-large">Ver Vagas Compatíveis</a>
+                <a href="vagas.html" class="btn-success-large">Ver Vagas Compatíveis &rarr;</a>
             </div>
         </div>
     `;
