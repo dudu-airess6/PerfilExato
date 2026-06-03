@@ -34,3 +34,4 @@ Para garantir a velocidade e funcionalidade do protótipo sem a necessidade de u
 2. Navegue até a pasta do projeto.
 
 3. Abra o arquivo index.html em qualquer navegador moderno.
+4. Acesse o link: https://dudu-airess6.github.io/PerfilExato/
