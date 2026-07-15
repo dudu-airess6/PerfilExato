@@ -1,5 +1,6 @@
 using System;
-
+//Validação e Tratamento de Dados (Foco no E-mail)
+//Criptografia de Senhas (Segurança no Cadastro)
 namespace PerfilExatoBackend
 {
     // =================================================================
@@ -126,8 +127,12 @@ namespace PerfilExatoBackend
             // Simulação 1: Tentativa de cadastro com e-mail inválido (Tratamento de Dados)
             backend.RegistrarCandidato("carol_senai_com", "senha123");
 
-            // Simulação 2: Cadastro com dados perfeitos (Validação e Criptografia OK)
+            // Simulação 2: Tentativa de cadastro com senha inválido (Tratamento de Dados)
+            backend.RegistrarCandidato("carol@senai.com.br", "senha");
+			
+			// Simulação 3: Cadastro com dados perfeitos (Validação e Criptografia OK)
             backend.RegistrarCandidato("carol@senai.com.br", "senha123");
+
 
             Console.ReadLine();
         }
