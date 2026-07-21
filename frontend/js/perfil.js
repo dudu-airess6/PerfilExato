@@ -1,95 +1,98 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const containerPerfil = document.getElementById('conteudo-perfil');
-    const dadosSalvos = JSON.parse(localStorage.getItem('dados_perfilExato'));
+    const painelDashboard = document.getElementById('painel-dashboard');
+    const painelVazio = document.getElementById('painel-vazio');
+    const tokenAtivo = sessionStorage.getItem('token_perfilExato');
 
-    if (!dadosSalvos) {
-        containerPerfil.innerHTML = `
-            <div class="dashboard-card empty-state">
-                <h2>📭 O seu perfil ainda está vazio!</h2>
-                <p>Para que o PerfilExato encontre as melhores vagas, preencha o formulário técnico.</p>
-                <a href="formulario.html" class="btn-primary">Preencher Formulário</a>
-            </div>
-        `;
+    // Barreira de segurança: Sem login ativo, redireciona
+    if (!tokenAtivo) {
+        alert("Por favor, faça login para acessar seu perfil.");
+        window.location.href = 'login.html';
         return;
     }
 
-    // --- CÁLCULO DE PRONTIDÃO (MANTIDO) ---
-    let pontuacaoProntidao = 0;
-    if (dadosSalvos.formacao) {
-        pontuacaoProntidao += dadosSalvos.formacao.includes("Incompleto") ? 10 : 20;
-    }
-    const qtdHard = dadosSalvos.competencias ? dadosSalvos.competencias.length : 0;
-    pontuacaoProntidao += Math.min(qtdHard * 10, 40);
-    const qtdSoft = dadosSalvos.comportamentais ? dadosSalvos.comportamentais.length : 0;
-    pontuacaoProntidao += Math.min(qtdSoft * 10, 40);
-    if (pontuacaoProntidao > 100) pontuacaoProntidao = 100;
+    // Busca os dados cadastrados no C# usando o Token
+    fetch(`http://localhost:5200/api/usuario?token=${tokenAtivo}`)
+        .then(response => response.json())
+        .then(data => {
+            // Se o C# responder que deu errado ou o objeto do perfil estiver nulo
+            if (!data.sucesso || !data.perfil) {
+                painelVazio.style.display = 'block';
+                painelDashboard.style.display = 'none';
+                return;
+            }
 
-    let corBarra = '#d32f2f'; 
-    let textoStatus = 'Iniciante';
-    if (pontuacaoProntidao >= 80) { corBarra = '#2e7d32'; textoStatus = 'Excelente'; }
-    else if (pontuacaoProntidao >= 50) { corBarra = '#f57c00'; textoStatus = 'Em Desenvolvimento'; }
+            // Normaliza as variáveis do C# para rodar na sua lógica original
+            const dadosSalvos = {
+                nome: data.nome,
+                curso: data.perfil.curso || '',
+                cpf: data.perfil.cpf || '',
+                cidade: data.perfil.cidade || '',
+                estado: data.perfil.estado || '',
+                cep: data.perfil.cep || '',
+                formacao: data.perfil.formacao || '',
+                competencias: data.perfil.competencias || [],
+                comportamentais: data.perfil.comportamentais || []
+            };
 
-    const hardTags = qtdHard > 0 ? dadosSalvos.competencias.map(s => `<span class="tag-skill hard">${s}</span>`).join('') : '<p class="no-data">Nenhuma competência técnica.</p>';
-    const softTags = qtdSoft > 0 ? dadosSalvos.comportamentais.map(s => `<span class="tag-skill soft">${s}</span>`).join('') : '<p class="no-data">Nenhuma competência comportamental.</p>';
+            // --- SEU CÁLCULO DE PRONTIDÃO ORIGINAL PRESENVADO ---
+            let pontuacaoProntidao = 0;
+            if (dadosSalvos.formacao) {
+                pontuacaoProntidao += dadosSalvos.formacao.includes("Incompleto") ? 10 : 20;
+            }
+            const qtdHard = dadosSalvos.competencias.length;
+            pontuacaoProntidao += Math.min(qtdHard * 10, 40);
+            
+            const qtdSoft = dadosSalvos.comportamentais.length;
+            pontuacaoProntidao += Math.min(qtdSoft * 10, 40);
+            
+            if (pontuacaoProntidao > 100) pontuacaoProntidao = 100;
 
-    // --- INJEÇÃO DO HTML ATUALIZADO ---
-    containerPerfil.innerHTML = `
-        <div class="dashboard-card">
-            <div class="profile-header">
-                <div class="avatar">${dadosSalvos.nome.charAt(0).toUpperCase()}</div>
-                <div class="user-meta">
-                    <p class="eyebrow">ESTUDANTE SENAI</p>
-                    <h1>${dadosSalvos.nome}</h1>
-                </div>
-            </div>
+            let corBarra = '#d32f2f'; 
+            let textoStatus = 'Iniciante';
+            if (pontuacaoProntidao >= 80) { 
+                corBarra = '#2e7d32'; 
+                textoStatus = 'Excelente'; 
+            } else if (pontuacaoProntidao >= 50) { 
+                corBarra = '#f57c00'; 
+                textoStatus = 'Em Desenvolvimento'; 
+            }
 
-            <div class="info-grid">
-                <div class="info-group">
-                    <label>Curso Técnico</label>
-                    <p>${dadosSalvos.curso.toUpperCase().replace(/-/g, ' ')}</p>
-                </div>
-                <div class="info-group">
-                    <label>CPF</label>
-                    <p>${dadosSalvos.cpf}</p>
-                </div>
-                <div class="info-group">
-                    <label>Localização</label>
-                    <p>${dadosSalvos.cidade} / ${dadosSalvos.estado}</p>
-                </div>
-                <div class="info-group">
-                    <label>CEP</label>
-                    <p>${dadosSalvos.cep}</p>
-                </div>
-                <div class="info-group">
-                    <label>Escolaridade</label>
-                    <p>${dadosSalvos.formacao || 'Não informado'}</p>
-                </div>
-            </div>
+            // --- PREENCHIMENTO DOS CAMPOS PESTILIZADOS ---
+            document.getElementById('perfil-avatar').textContent = dadosSalvos.nome.charAt(0).toUpperCase();
+            document.getElementById('perfil-nome').textContent = dadosSalvos.nome;
+            document.getElementById('perfil-curso').textContent = dadosSalvos.curso.toUpperCase().replace(/-/g, ' ');
+            document.getElementById('perfil-cpf').textContent = dadosSalvos.cpf;
+            document.getElementById('perfil-localizacao').textContent = `${dadosSalvos.cidade} / ${dadosSalvos.estado}`;
+            document.getElementById('perfil-cep').textContent = dadosSalvos.cep;
+            document.getElementById('perfil-escolaridade').textContent = dadosSalvos.formacao || 'Não informado';
 
-            <div class="readiness-box">
-                <div class="readiness-header">
-                    <span>Prontidão para o Mercado</span>
-                    <span style="color: ${corBarra}">${pontuacaoProntidao}% - ${textoStatus}</span>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${pontuacaoProntidao}%; background-color: ${corBarra}"></div>
-                </div>
-            </div>
+            // --- ATUALIZAÇÃO DA BARRA DE PRONTIDÃO ---
+            const statusLabel = document.getElementById('readiness-status');
+            statusLabel.textContent = `${pontuacaoProntidao}% - ${textoStatus}`;
+            statusLabel.style.color = corBarra;
 
-            <div class="skills-wrapper">
-                <div class="skill-column">
-                    <h3>⚙️ Hard Skills</h3>
-                    <div class="tags-flex">${hardTags}</div>
-                </div>
-                <div class="skill-column">
-                    <h3>🧠 Soft Skills</h3>
-                    <div class="tags-flex">${softTags}</div>
-                </div>
-            </div>
+            const progressBar = document.getElementById('readiness-bar');
+            progressBar.style.width = `${pontuacaoProntidao}%`;
+            progressBar.style.backgroundColor = corBarra;
 
-            <div class="profile-footer">
-                <a href="vagas.html" class="btn-success-large">Ver Vagas Compatíveis &rarr;</a>
-            </div>
-        </div>
-    `;
+            // --- INJEÇÃO DAS SKILLS (HARD E SOFT) ---
+            const containerHard = document.getElementById('tags-hard');
+            containerHard.innerHTML = qtdHard > 0 
+                ? dadosSalvos.competencias.map(s => `<span class="tag-skill hard">${s}</span>`).join('') 
+                : '<p class="no-data">Nenhuma competência técnica.</p>';
+
+            const containerSoft = document.getElementById('tags-soft');
+            containerSoft.innerHTML = qtdSoft > 0 
+                ? dadosSalvos.comportamentais.map(s => `<span class="tag-skill soft">${s}</span>`).join('') 
+                : '<p class="no-data">Nenhuma competência comportamental.</p>';
+
+            // Torna o painel visível após popular tudo perfeitamente
+            painelDashboard.style.display = 'block';
+            painelVazio.style.display = 'none';
+        })
+        .catch(error => {
+            console.error("Erro crítico de conexão com o servidor C#:", error);
+            painelVazio.style.display = 'block';
+            painelVazio.innerHTML = `<h2>⚠️ Erro de Conexão</h2><p>Não foi possível estabelecer contato com a API do PerfilExato. Verifique o servidor .NET.</p>`;
+        });
 });
