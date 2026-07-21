@@ -3,27 +3,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (formCadastro) {
         formCadastro.addEventListener('submit', (event) => {
-            event.preventDefault(); // Evita recarregar a página
+            event.preventDefault(); 
 
             const nome = document.getElementById('nome-cadastro').value;
             const email = document.getElementById('email-cadastro').value;
             const senha = document.getElementById('senha-cadastro').value;
             const confirmarSenha = document.getElementById('confirmar-senha').value;
 
-            // --- NOVA LÓGICA: Validação das Senhas ---
+            // Validação visual do front
             if (senha !== confirmarSenha) {
                 alert('As senhas não coincidem! Por favor, digite senhas iguais.');
-                return; // O 'return' trava a execução aqui e não deixa criar a conta
+                return;
             }
 
-            // Guarda a "conta" no banco de dados simulado (localStorage)
-            const novaConta = { nome, email, senha };
-            localStorage.setItem('conta_perfilExato', JSON.stringify(novaConta));
+            const dados = { nome, email, senha };
 
-            alert('Conta criada com sucesso! Faça login para continuar.');
-            
-            // Redireciona o utilizador para a página de login
-            window.location.href = 'login.html';
+            // --- AGORA CONECTADO AO PORTA 5200 DO C# ---
+            fetch('http://localhost:5200/api/cadastro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    alert(data.mensagem); 
+                    window.location.href = 'login.html'; 
+                } else {
+                    alert('Erro no Servidor C#: ' + data.mensagem); 
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Não foi possível conectar ao servidor C#. Verifique se ele está rodando no terminal!');
+            });
         });
     }
 });
