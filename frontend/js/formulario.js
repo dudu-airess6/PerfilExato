@@ -1,5 +1,5 @@
 // ==========================================
-// 1. FUNÇÃO DE VALIDAÇÃO DE CPF (CAIXA BRANCA)
+// 1. FUNÇÃO DE VALIDAÇÃO DE CPF (UX no Front)
 // ==========================================
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, ''); // Remove pontos e traços
@@ -22,25 +22,28 @@ function validarCPF(cpf) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- MÁSCARA DE CPF EM TEMPO REAL ---
-const campoCpf = document.getElementById('cpf');
+    const campoCpf = document.getElementById('cpf');
 
-campoCpf.addEventListener('input', (e) => {
-    let v = e.target.value.replace(/\D/g, ""); // Remove tudo que não é dígito
-    
-    if (v.length <= 11) {
-        v = v.replace(/(\d{3})(\d)/, "$1.$2");
-        v = v.replace(/(\d{3})(\d)/, "$1.$2");
-        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    if (campoCpf) {
+        campoCpf.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, ""); // Remove tudo que não é dígito
+            
+            if (v.length <= 11) {
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            }
+            
+            e.target.value = v;
+        });
     }
-    
-    e.target.value = v;
-});
+
     // ==========================================
-    // 2. BARREIRA DE SEGURANÇA E AUTO-PREENCHIMENTO
+    // 2. BARREIRA DE SEGURANÇA E AUTO-PREENCHIMENTO VIA BACKEND C#
     // ==========================================
-    const contaAtiva = JSON.parse(localStorage.getItem('conta_perfilExato'));
+    const tokenAtivo = sessionStorage.getItem('token_perfilExato');
     
-    if (!contaAtiva) {
+    if (!tokenAtivo) {
         alert("Para preencher o seu perfil e acessar as vagas, você precisa criar uma conta ou fazer login primeiro.");
         window.location.href = 'login.html';
         return;
@@ -49,20 +52,34 @@ campoCpf.addEventListener('input', (e) => {
     const campoNome = document.getElementById('nome'); 
     const campoEmail = document.getElementById('email'); 
 
-    if (campoNome && contaAtiva.nome) {
-        campoNome.value = contaAtiva.nome;
-        campoNome.readOnly = true;
-        campoNome.style.backgroundColor = "#f0f0f0";
-    }
-
-    if (campoEmail && contaAtiva.email) {
-        campoEmail.value = contaAtiva.email;
-        campoEmail.readOnly = true;
-        campoEmail.style.backgroundColor = "#f0f0f0";
-    }
+    // 🔄 Puxa os dados do C# dinamicamente usando o Token da sessão
+    fetch(`http://localhost:5200/api/usuario?token=${tokenAtivo}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                // Preenche o campo Nome e bloqueia para edição
+                if (campoNome && data.nome) {
+                    campoNome.value = data.nome;
+                    campoNome.readOnly = true;
+                    campoNome.style.backgroundColor = "#f0f0f0";
+                }
+                // Preenche o campo E-mail e bloqueia para edição
+                if (campoEmail && data.email) {
+                    campoEmail.value = data.email;
+                    campoEmail.readOnly = true;
+                    campoEmail.style.backgroundColor = "#f0f0f0";
+                }
+            } else {
+                alert("Erro ao carregar dados do usuário: " + data.mensagem);
+                window.location.href = 'login.html';
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao conectar ao servidor para buscar usuário:", error);
+        });
 
     // ==========================================
-    // 3. LÓGICA DE ENVIO DO FORMULÁRIO (ATUALIZADA)
+    // 3. LÓGICA DE ENVIO DO FORMULÁRIO API C#
     // ==========================================
     const formPerfil = document.getElementById('formPerfil');
 
@@ -70,20 +87,11 @@ campoCpf.addEventListener('input', (e) => {
         formPerfil.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // CAPTURA DOS NOVOS CAMPOS
+            // CAPTURA DOS CAMPOS
             const cpfValue = document.getElementById('cpf').value;
             const cepValue = document.getElementById('cep').value;
             const cidadeValue = document.getElementById('cidade').value;
             const estadoValue = document.getElementById('estado').value;
-
-            // VALIDAÇÃO DE SEGURANÇA (CPF)
-            if (!validarCPF(cpfValue)) {
-                alert("O CPF digitado é inválido. Por favor, verifique.");
-                document.getElementById('cpf').focus();
-                return; // INTERROMPE O ENVIO
-            }
-
-            const nome = document.getElementById('nome').value;
             const curso = document.getElementById('curso').value;
             const formacaoInput = document.querySelector('input[name="formacao"]:checked');
             const formacao = formacaoInput ? formacaoInput.value : "Não informado";
@@ -94,9 +102,16 @@ campoCpf.addEventListener('input', (e) => {
             const softSkills = Array.from(document.querySelectorAll('input[name="soft_skills"]:checked'))
                                     .map(el => el.value);
 
-            // MONTAGEM DO OBJETO COMPLETO (Incluso CEP/CPF/Cidade)
-            const perfilUsuario = {
-                nome: nome,
+            // VALIDAÇÃO RÁPIDA NO FRONTEND
+            if (!validarCPF(cpfValue)) {
+                alert("O CPF digitado é inválido. Por favor, verifique.");
+                document.getElementById('cpf').focus();
+                return; 
+            }
+
+            // MONTAGEM DO OBJETO PARA ENVIAR AO C#
+            const dadosParaBackend = {
+                token: tokenAtivo,
                 cpf: cpfValue,
                 cep: cepValue,
                 cidade: cidadeValue,
@@ -107,20 +122,40 @@ campoCpf.addEventListener('input', (e) => {
                 comportamentais: softSkills
             };
 
-            // SALVAMENTO NO LOCALSTORAGE
-            localStorage.setItem('dados_perfilExato', JSON.stringify(perfilUsuario));
-
             // EFEITO VISUAL NO BOTÃO
             const btn = formPerfil.querySelector('.btn-submit');
             if (btn) {
-                btn.innerHTML = "Analisando Perfil...";
+                btn.innerHTML = "Analisando Perfil no Servidor...";
                 btn.style.backgroundColor = "#736B66";
             }
             
-            // REDIRECIONAMENTO
-            setTimeout(() => {
-                window.location.href = 'scanner.html';
-            }, 800);
+            // --- ENVIA PARA A API C# ---
+            fetch('http://localhost:5200/api/perfil/salvar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosParaBackend)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.sucesso) {
+                    alert(data.mensagem);
+                    window.location.href = 'scanner.html'; 
+                } else {
+                    alert('Erro: ' + data.mensagem); 
+                    if(btn) {
+                        btn.innerHTML = "Tentar Novamente";
+                        btn.style.backgroundColor = ""; 
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert("Erro ao conectar com o backend C#.");
+                if(btn) {
+                    btn.innerHTML = "Tentar Novamente";
+                    btn.style.backgroundColor = "";
+                }
+            });
         });
     }
 

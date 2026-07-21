@@ -1,143 +1,167 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors();
+// Configuração do CORS para permitir que o Front-End conecte sem erros
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTudo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
-app.UseCors(policy => policy
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+app.UseCors("PermitirTudo");
 
-// 💾 BANCO DE DADOS SIMULADO EM MEMÓRIA
-// Guarda o E-mail (Chave) e o Hash da Senha (Valor) enquanto o servidor estiver ligado
-var BancoUsuariosSimulado = new Dictionary<string, string>();
+// =================================================================
+// SIMULADOR DE BANCO DE DADOS (Na memória RAM do servidor)
+// =================================================================
+var BancoUsuariosSimulado = new Dictionary<string, UsuarioSimulado>();
+var SessoesAtivas = new Dictionary<string, string>(); // Guarda qual Token pertence a qual Email
 
 // =================================================================
 // 📍 1. ROTA DE CADASTRO
 // =================================================================
-app.MapPost("/api/cadastro", (DadosCandidatoDTO dados) =>
+app.MapPost("/api/cadastro", (DadosCadastroDTO dados) =>
 {
-    try
+    if (BancoUsuariosSimulado.ContainsKey(dados.email))
     {
-        var backend = new PerfilExatoBackend.ServicoCadastroCandidato();
-        backend.RegistrarCandidato(dados.email, dados.senha);
-
-        // Verifica se o e-mail já existe na nossa memória
-        if (BancoUsuariosSimulado.ContainsKey(dados.email))
-            return Results.BadRequest(new { sucesso = false, mensagem = "Este e-mail já está cadastrado!" });
-
-        // Salva o e-mail e o HASH gerado pela nossa classe de POO
-        BancoUsuariosSimulado[dados.email] = backend.SenhaCriptografada;
-
-        return Results.Ok(new { sucesso = true, mensagem = "✅ Cadastro realizado com sucesso no Backend C#!" });
+        return Results.BadRequest(new { sucesso = false, mensagem = "Este e-mail já está cadastrado!" });
     }
-    catch (Exception ex)
-    {
-        return Results.BadRequest(new { sucesso = false, mensagem = ex.Message });
-    }
+
+    var novoUsuario = new UsuarioSimulado(dados.nome, dados.senha);
+    BancoUsuariosSimulado.Add(dados.email, novoUsuario);
+
+    return Results.Ok(new { sucesso = true, mensagem = "Conta criada com sucesso!" });
 });
 
 // =================================================================
-// 📍 2. ROTA DE LOGIN (Nova!)
+// 📍 2. ROTA DE LOGIN
 // =================================================================
 app.MapPost("/api/login", (DadosLoginDTO dados) =>
 {
-    try
+    if (BancoUsuariosSimulado.ContainsKey(dados.email))
     {
-        // 1. O sistema tenta buscar o e-mail na memória
-        if (!BancoUsuariosSimulado.ContainsKey(dados.email))
-        {
-            return Results.BadRequest(new { sucesso = false, mensagem = "Usuário ou senha incorretos!" });
-        }
+        var usuario = BancoUsuariosSimulado[dados.email];
 
-        // 2. Resgata o HASH que foi guardado no momento do cadastro (CORRIGIDO: Sem espaço no nome da variável)
-        string hashGuardadoNoBanco = BancoUsuariosSimulado[dados.email];
-
-        // 3. Pega a senha que o usuário digitou AGORA no login e joga na máquina de moer (Criptografar)
-        var backend = new PerfilExatoBackend.ServicoCadastroCandidato();
-        string hashGeradoAgora = backend.CriptografarSenha(dados.senha);
-
-        // 4. A COMPARAÇÃO: Confere se a carne moída de hoje é idêntica à do cadastro (CORRIGIDO)
-        if (hashGuardadoNoBanco == hashGeradoAgora)
+        if (usuario.HashSenha == dados.senha) 
         {
-            return Results.Ok(new { sucesso = true, mensagem = "🎉 Login realizado com sucesso! Seja bem-vindo." });
-        }
-        else
-        {
-            return Results.BadRequest(new { sucesso = false, mensagem = "Usuário ou senha incorretos!" });
+            string tokenGerado = Guid.NewGuid().ToString();
+            SessoesAtivas[tokenGerado] = dados.email; 
+
+            return Results.Ok(new { 
+                sucesso = true, 
+                mensagem = "Login realizado com sucesso!",
+                token = tokenGerado 
+            });
         }
     }
-    catch (Exception ex)
+
+    return Results.BadRequest(new { sucesso = false, mensagem = "E-mail ou senha incorretos." });
+});
+
+// =================================================================
+// 📍 3. ROTA PARA BUSCAR DADOS DO USUÁRIO LOGADO
+// =================================================================
+app.MapGet("/api/usuario", (string token) =>
+{
+    if (SessoesAtivas.ContainsKey(token))
     {
-        return Results.BadRequest(new { sucesso = false, mensagem = ex.Message });
+        string emailLogado = SessoesAtivas[token];
+        var usuario = BancoUsuariosSimulado[emailLogado];
+
+        return Results.Ok(new { sucesso = true, nome = usuario.Nome, email = emailLogado });
     }
+
+    return Results.BadRequest(new { sucesso = false, mensagem = "Token inválido ou expirado." });
+});
+
+// =================================================================
+// 📍 4. ROTA DE SALVAR PERFIL (Formulário Avançado)
+// =================================================================
+app.MapPost("/api/perfil/salvar", (DadosPerfilDTO dados) =>
+{
+    // 1. Verifica se o usuário está logado usando o Token
+    if (string.IsNullOrEmpty(dados.token) || !SessoesAtivas.ContainsKey(dados.token))
+        return Results.BadRequest(new { sucesso = false, mensagem = "Sessão inválida! Faça login novamente." });
+
+    // 2. Validação do CPF no Backend (Segurança Caixa Branca)
+    var validador = new PerfilExatoBackend.ServicoValidacaoDocumento();
+    if (!validador.ValidarCPF(dados.cpf))
+        return Results.BadRequest(new { sucesso = false, mensagem = "CPF inválido detectado pelo servidor!" });
+
+    // 3. Salva os dados no perfil do usuário
+    string emailDono = SessoesAtivas[dados.token];
+    UsuarioSimulado usuario = BancoUsuariosSimulado[emailDono];
+    
+    usuario.Perfil = dados; // Grava o formulário na memória do C# associado ao usuário
+
+    return Results.Ok(new { sucesso = true, mensagem = "Perfil analisado e salvo com segurança no Backend!" });
 });
 
 app.Run("http://localhost:5200");
 
-// DTOs (Moldes para receber os dados do Javascript)
-public record DadosCandidatoDTO(string nome, string email, string senha);
-public record DadosLoginDTO(string email, string senha);
 
 // =================================================================
-// 🏷️ SUA ESTRUTURA DE POO PRESERVADA
+// CLASSES E ESTRUTURAS DE DADOS (DTOs)
 // =================================================================
+public record DadosCadastroDTO(string nome, string email, string senha);
+public record DadosLoginDTO(string email, string senha);
+public record DadosPerfilDTO(string token, string cpf, string cep, string cidade, string estado, string curso, string formacao, string[] competencias, string[] comportamentais);
+
+public class UsuarioSimulado
+{
+    public string Nome { get; set; }
+    public string HashSenha { get; set; }
+    public DadosPerfilDTO? Perfil { get; set; } // Guarda o formulário preenchido
+
+    public UsuarioSimulado(string nome, string hashSenha)
+    {
+        Nome = nome;
+        HashSenha = hashSenha;
+    }
+}
+
 namespace PerfilExatoBackend
 {
-    public abstract class ServicoBase
+    public class ServicoValidacaoDocumento
     {
-        protected string NomeDoServico { get; set; }
-        protected ServicoBase(string nomeServico) { NomeDoServico = nomeServico; }
-        public abstract bool ValidarDados(string email, string senha);
-        public virtual string CriptografarSenha(string senha) => $"[HASH_PADRAO]_{senha}";
-    }
-
-    public class ServicoCadastroCandidato : ServicoBase
-    {
-        private string _emailCandidato;
-        private string _senhaCriptografada;
-
-        public string EmailCandidato
+        // Regra de Negócio Pura: Validação de CPF migrada para o C#
+        public bool ValidarCPF(string cpf)
         {
-            get => _emailCandidato;
-            set 
-            {
-                if (string.IsNullOrWhiteSpace(value) || !value.Contains("@") || !value.Contains("."))
-                    throw new Exception("Formato de e-mail inválido detectado pelo Backend!");
-                _emailCandidato = value;
-            }
-        }
+            if (string.IsNullOrWhiteSpace(cpf)) return false;
+            
+            cpf = new string(cpf.Where(char.IsDigit).ToArray()); // Remove pontos e traços
+            
+            if (cpf.Length != 11 || new string(cpf[0], 11) == cpf) return false;
 
-        public string SenhaCriptografada { get => _senhaCriptografada; private set => _senhaCriptografada = value; }
+            int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-        public ServicoCadastroCandidato() : base("Serviço de Cadastro") { }
+            string tempCpf = cpf.Substring(0, 9);
+            int soma = 0;
 
-        public override bool ValidarDados(string email, string senha)
-        {
-            if (string.IsNullOrWhiteSpace(senha) || senha.Length < 6)
-                throw new Exception("A senha precisa ter no mínimo 6 caracteres!");
-            return true;
-        }
+            for (int i = 0; i < 9; i++) soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            int resto = (soma * 10) % 11;
+            if (resto == 10 || resto == 11) resto = 0;
+            if (resto != int.Parse(cpf[9].ToString())) return false;
 
-        public override string CriptografarSenha(string senha)
-        {
-            string salt = "$2a$11$KxeH783Ysk...";
-            return $"[BCRYPT_SECURE_HASH]_{Math.Abs(senha.GetHashCode())}_{salt.Substring(0, 10)}";
-        }
+            soma = 0;
+            tempCpf += resto.ToString();
+            for (int i = 0; i < 10; i++) soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            resto = (soma * 10) % 11;
+            if (resto == 10 || resto == 11) resto = 0;
 
-        public void RegistrarCandidato(string email, string senhaPlana)
-        {
-            if (ValidarDados(email, senhaPlana))
-            {
-                this.EmailCandidato = email; 
-                this.SenhaCriptografada = CriptografarSenha(senhaPlana); 
-            }
+            return resto == int.Parse(cpf[10].ToString());
         }
     }
 }
