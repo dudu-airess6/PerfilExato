@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PerfilExato SENAI - Vagas Disponíveis</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>PerfilExato SENAI - Minhas Inscrições</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/vagas.css">
-    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/perfil.css"> <!-- Reutiliza o design de cards -->
 </head>
 <body>
-
     <div class="top-bar">
         SENAI • PLATAFORMA DE EMPREGABILIDADE TÉCNICA
     </div>
 
-    <header class="navbar">
+     <header class="navbar">
         <div class="nav-container">
-          <div class="logo">
+            <div class="logo">
                 <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
                 PerfilExato
             </div>
@@ -28,18 +25,23 @@
                 <a href="index.html">Início</a>
                 <a href="formulario.html">Formulário</a>
                 <a href="perfil.html">Meu Perfil</a>
-                <a href="#" class="active">Vagas</a>
-                <a href="inscricoes.html">Inscrições</a>
+                <a href="vagas.html">Vagas</a>
+                <a href="#" class="active">Inscrições</a>
             </nav>
         </div>
     </header>
 
-   <main class="vagas-wrapper">
-        <div class="container" id="lista-vagas">
+    <main class="dashboard-wrapper">
+        <div class="dashboard-card" style="width: 100%;">
+            <h2 style="margin-bottom: 5px;">💼 Minhas Candidaturas Ativas</h2>
+            <p style="color: #666; margin-bottom: 30px;">Abaixo estão registradas as vagas enviadas com a comprovação técnica do selo PerfilExato.</p>
+            
+            <div id="lista-inscricoes" style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- As inscrições populadas pelo C# entrarão aqui -->
             </div>
+        </div>
     </main>
 
-    <script src="js/script.js"></script>
-    <script src="js/vagas.js"></script>
+    <script src="js/inscricoes.js"></script>
 </body>
 </html>

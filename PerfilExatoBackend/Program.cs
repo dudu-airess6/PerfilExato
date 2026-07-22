@@ -7,14 +7,11 @@ using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do CORS para integração perfeita com o Frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTudo", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
@@ -27,9 +24,7 @@ app.UseCors("PermitirTudo");
 var BancoUsuariosSimulado = new Dictionary<string, UsuarioSimulado>();
 var SessoesAtivas = new Dictionary<string, string>(); 
 
-// =================================================================
 // 📍 ROTA 1: CADASTRO
-// =================================================================
 app.MapPost("/api/cadastro", (DadosCadastroDTO dados) =>
 {
     if (BancoUsuariosSimulado.ContainsKey(dados.email))
@@ -41,37 +36,28 @@ app.MapPost("/api/cadastro", (DadosCadastroDTO dados) =>
     return Results.Ok(new { sucesso = true, mensagem = "Conta criada com sucesso!" });
 });
 
-// =================================================================
-// 📍 ROTA 2: LOGIN (Geração de Token)
-// =================================================================
+// 📍 ROTA 2: LOGIN
 app.MapPost("/api/login", (DadosLoginDTO dados) =>
 {
     if (BancoUsuariosSimulado.ContainsKey(dados.email))
     {
         var usuario = BancoUsuariosSimulado[dados.email];
-
         if (usuario.HashSenha == dados.senha) 
         {
             string tokenGerado = Guid.NewGuid().ToString();
             SessoesAtivas[tokenGerado] = dados.email; 
 
-            return Results.Ok(new { 
-                sucesso = true, 
-                mensagem = "Login realizado com sucesso!",
-                token = tokenGerado 
-            });
+            return Results.Ok(new { sucesso = true, mensagem = "Login realizado com sucesso!", token = tokenGerado });
         }
     }
     return Results.BadRequest(new { sucesso = false, mensagem = "E-mail ou senha incorretos." });
 });
 
-// =================================================================
-// 📍 ROTA 3: BUSCAR DADOS DO USUÁRIO + PERFIL (Atualizada!)
-// =================================================================
+// 📍 ROTA 3: BUSCAR DADOS DO USUÁRIO + PERFIL + INSCRIÇÕES
 app.MapGet("/api/usuario", (string token) =>
 {
     if (string.IsNullOrEmpty(token) || !SessoesAtivas.ContainsKey(token))
-        return Results.BadRequest(new { sucesso = false, mensagem = "Sessão inválida ou expirada." });
+        return Results.BadRequest(new { sucesso = false, message = "Sessão inválida." });
 
     string emailLogado = SessoesAtivas[token];
     var usuario = BancoUsuariosSimulado[emailLogado];
@@ -80,45 +66,66 @@ app.MapGet("/api/usuario", (string token) =>
         sucesso = true, 
         nome = usuario.Nome, 
         email = emailLogado,
-        perfil = usuario.Perfil // Envia o formulário preenchido (se houver)
+        perfil = usuario.Perfil,
+        inscricoes = usuario.Inscricoes // Retorna o histórico de vagas
     });
 });
 
-// =================================================================
-// 📍 ROTA 4: SALVAR PERFIL
-// =================================================================
+// 📍 ROTA 4: SALVAR/ATUALIZAR PERFIL (Persistência garantida)
 app.MapPost("/api/perfil/salvar", (DadosPerfilDTO dados) =>
 {
     if (string.IsNullOrEmpty(dados.token) || !SessoesAtivas.ContainsKey(dados.token))
-        return Results.BadRequest(new { sucesso = false, mensagem = "Sessão inválida! Faça login novamente." });
+        return Results.BadRequest(new { sucesso = false, mensagem = "Sessão inválida!" });
 
     var validador = new PerfilExatoBackend.ServicoValidacaoDocumento();
     if (!validador.ValidarCPF(dados.cpf))
-        return Results.BadRequest(new { sucesso = false, mensagem = "CPF inválido detectado pelo servidor!" });
+        return Results.BadRequest(new { sucesso = false, mensagem = "CPF inválido!" });
 
     string emailDono = SessoesAtivas[dados.token];
     UsuarioSimulado usuario = BancoUsuariosSimulado[emailDono];
     
-    usuario.Perfil = dados; // Salva o formulário na conta do usuário
-
-    return Results.Ok(new { sucesso = true, mensagem = "Perfil analisado e salvo com segurança no Backend!" });
+    usuario.Perfil = dados; 
+    return Results.Ok(new { sucesso = true, mensagem = "Perfil salvo com sucesso no servidor!" });
 });
 
-// Força o servidor a rodar sempre na porta correta
+// 📍 ROTA 5: REGISTRAR NOVA INSCRIÇÃO EM VAGA
+app.MapPost("/api/vagas/candidatar", (NovaCandidaturaDTO dados) =>
+{
+    if (string.IsNullOrEmpty(dados.token) || !SessoesAtivas.ContainsKey(dados.token))
+        return Results.BadRequest(new { sucesso = false, mensagem = "Sessão inválida." });
+
+    string email = SessoesAtivas[dados.token];
+    var usuario = BancoUsuariosSimulado[email];
+
+    // Evita duplicidade de inscrição na mesma vaga
+    if (usuario.Inscricoes.Any(i => i.tituloVaga == dados.tituloVaga && i.empresa == dados.empresa))
+        return Results.BadRequest(new { sucesso = false, mensagem = "Você já se candidatou a esta vaga!" });
+
+    // Registra a inscrição com o carimbo de Data e Hora atual do servidor
+    string dataHoraRegistro = DateTime.Now.ToString("dd/MM/yyyy às HH:mm");
+    var novaInscricao = new DadosInscricaoDTO(dados.tituloVaga, dados.empresa, dataHoraRegistro);
+    usuario.Inscricoes.Add(novaInscricao);
+
+    return Results.Ok(new { sucesso = true, mensagem = "Inscrição realizada com sucesso através do PerfilExato!" });
+});
+
 app.Run("http://localhost:5200");
 
 // =================================================================
-// 🏷️ ESTRUTURAS DE DADOS (DTOs e Modelos)
+// 🏷️ DTOs E MODELOS DE DADOS ATUALIZADOS
 // =================================================================
 public record DadosCadastroDTO(string nome, string email, string senha);
 public record DadosLoginDTO(string email, string senha);
+public record NovaCandidaturaDTO(string token, string tituloVaga, string empresa);
+public record DadosInscricaoDTO(string tituloVaga, string empresa, string dataHora);
 public record DadosPerfilDTO(string token, string cpf, string cep, string cidade, string estado, string curso, string formacao, string[] competencias, string[] comportamentais);
 
 public class UsuarioSimulado
 {
     public string Nome { get; set; }
     public string HashSenha { get; set; }
-    public DadosPerfilDTO? Perfil { get; set; } // '?' Resolve o warning de nulo
+    public DadosPerfilDTO? Perfil { get; set; } 
+    public List<DadosInscricaoDTO> Inscricoes { get; set; } = new List<DadosInscricaoDTO>(); // Histórico das vagas
 
     public UsuarioSimulado(string nome, string hashSenha)
     {
@@ -136,23 +143,18 @@ namespace PerfilExatoBackend
             if (string.IsNullOrWhiteSpace(cpf)) return false;
             cpf = new string(cpf.Where(char.IsDigit).ToArray());
             if (cpf.Length != 11 || new string(cpf[0], 11) == cpf) return false;
-
-            int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            string tempCpf = cpf.Substring(0, 9);
+            int[] m1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] m2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            string temp = cpf.Substring(0, 9);
             int soma = 0;
-            for (int i = 0; i < 9; i++) soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            for (int i = 0; i < 9; i++) soma += int.Parse(temp[i].ToString()) * m1[i];
             int resto = (soma * 10) % 11;
             if (resto == 10 || resto == 11) resto = 0;
             if (resto != int.Parse(cpf[9].ToString())) return false;
-
-            soma = 0;
-            tempCpf += resto.ToString();
-            for (int i = 0; i < 10; i++) soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            soma = 0; temp += resto.ToString();
+            for (int i = 0; i < 10; i++) soma += int.Parse(temp[i].ToString()) * m2[i];
             resto = (soma * 10) % 11;
             if (resto == 10 || resto == 11) resto = 0;
-
             return resto == int.Parse(cpf[10].ToString());
         }
     }
