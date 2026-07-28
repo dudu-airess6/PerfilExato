@@ -25,12 +25,18 @@ var app = builder.Build();
 app.UseCors("PermitirTudo");
 
 // 🔑 Sessoes ativas mantidas em memória temporária para controle de Token
-// (Em produção usaríamos JWT, mas mantém o fluxo simples e funcional)
 Dictionary<string, string> SessoesAtivas = new Dictionary<string, string>();
 
-// 📍 ROTA 1: CADASTRO (Salva no SQL Server)
+// 📍 ROTA 1: CADASTRO (Salva no SQL Server com validação de senha)
 app.MapPost("/api/cadastro", async (DadosCadastroDTO dados, AppDbContext context) =>
 {
+    // 🔐 VALIDAÇÃO: Senha deve ter pelo menos 6 caracteres
+    if (string.IsNullOrWhiteSpace(dados.senha) || dados.senha.Length < 6)
+    {
+        Console.WriteLine("⚠️ Validação falhou: Senha deve ter pelo menos 6 caracteres.");
+        return Results.BadRequest(new { sucesso = false, mensagem = "A senha deve ter pelo menos 6 caracteres!" });
+    }
+
     var usuarioExiste = await context.Usuarios.AnyAsync(u => u.Email == dados.email);
     if (usuarioExiste)
         return Results.BadRequest(new { sucesso = false, mensagem = "Este e-mail já está cadastrado!" });
@@ -71,7 +77,6 @@ app.MapGet("/api/usuario", async (string token, AppDbContext context) =>
 
     if (usuario == null) return Results.BadRequest(new { sucesso = false, message = "Usuário não encontrado." });
 
-    // Converte os dados do SQL de volta para o formato de Arrays do JS
     object? perfilDdto = null;
     if (usuario.Perfil != null)
     {
@@ -107,13 +112,11 @@ app.MapPost("/api/perfil/salvar", async (DadosPerfilDTO dados, AppDbContext cont
     
     if (usuario == null) return Results.BadRequest(new { sucesso = false, mensagem = "Usuário não encontrado." });
 
-    // Junta as listas de skills em uma única string separada por ";" para salvar no banco
     string comps = dados.competencias != null ? string.Join(";", dados.competencias) : "";
     string softs = dados.comportamentais != null ? string.Join(";", dados.comportamentais) : "";
 
     if (usuario.Perfil == null)
     {
-        // Cria um novo registro de Perfil se não existir
         usuario.Perfil = new Perfil {
             Cpf = dados.cpf, Cep = dados.cep, Cidade = dados.cidade, Estado = dados.estado,
             Curso = dados.curso, Formacao = dados.formacao, CompetenciasSemicolon = comps, ComportamentaisSemicolon = softs
@@ -121,7 +124,6 @@ app.MapPost("/api/perfil/salvar", async (DadosPerfilDTO dados, AppDbContext cont
     }
     else
     {
-        // Atualiza o existente
         usuario.Perfil.Cpf = dados.cpf; usuario.Perfil.Cep = dados.cep;
         usuario.Perfil.Cidade = dados.cidade; usuario.Perfil.Estado = dados.estado;
         usuario.Perfil.Curso = dados.curso; usuario.Perfil.Formacao = dados.formacao;
@@ -194,7 +196,7 @@ public class Perfil
     public string Estado { get; set; } = string.Empty;
     public string Curso { get; set; } = string.Empty;
     public string Formacao { get; set; } = string.Empty;
-    public string CompetenciasSemicolon { get; set; } = string.Empty; // Mapeado como texto longo separado por ";"
+    public string CompetenciasSemicolon { get; set; } = string.Empty; 
     public string ComportamentaisSemicolon { get; set; } = string.Empty;
 }
 
@@ -207,7 +209,6 @@ public class Inscricao
     public string DataHora { get; set; } = string.Empty;
 }
 
-// DTOs recebidos dos formulários frontend
 public record DadosCadastroDTO(string nome, string email, string senha);
 public record DadosLoginDTO(string email, string senha);
 public record NovaCandidaturaDTO(string token, string tituloVaga, string empresa);
