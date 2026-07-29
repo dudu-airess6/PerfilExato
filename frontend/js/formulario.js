@@ -37,42 +37,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const campoNome = document.getElementById('nome'); 
     const campoEmail = document.getElementById('email'); 
 
-    // 🔄 RECONEXÃO: Puxa os dados para verificar se já existem respostas salvas
-    fetch(`http://localhost:5200/api/usuario?token=${tokenAtivo}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.sucesso) {
-                if (campoNome) { campoNome.value = data.nome; campoNome.readOnly = true; campoNome.style.backgroundColor = "#f0f0f0"; }
-                if (campoEmail) { campoEmail.value = data.email; campoEmail.readOnly = true; campoEmail.style.backgroundColor = "#f0f0f0"; }
+    // 🔄 RECONEXÃO: Puxa os dados enviando o Token JWT no Header (Mais seguro!)
+    fetch(`http://localhost:5200/api/usuario`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${tokenAtivo}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.sucesso) {
+            if (campoNome) { campoNome.value = data.nome; campoNome.readOnly = true; campoNome.style.backgroundColor = "#f0f0f0"; }
+            if (campoEmail) { campoEmail.value = data.email; campoEmail.readOnly = true; campoEmail.style.backgroundColor = "#f0f0f0"; }
 
-                // ✨ AUTO-PREENCHIMENTO: Caso o usuário já tenha salvo dados antes, renderiza nas caixas
-                if (data.perfil) {
-                    if(document.getElementById('cpf')) document.getElementById('cpf').value = data.perfil.cpf;
-                    if(document.getElementById('cep')) document.getElementById('cep').value = data.perfil.cep;
-                    if(document.getElementById('cidade')) document.getElementById('cidade').value = data.perfil.cidade;
-                    if(document.getElementById('estado')) document.getElementById('estado').value = data.perfil.estado;
-                    if(document.getElementById('curso')) document.getElementById('curso').value = data.perfil.curso;
-                    
-                    const radioFormacao = document.querySelector(`input[name="formacao"][value="${data.perfil.formacao}"]`);
-                    if (radioFormacao) radioFormacao.checked = true;
+            if (data.perfil) {
+                if(document.getElementById('cpf')) document.getElementById('cpf').value = data.perfil.cpf;
+                if(document.getElementById('cep')) document.getElementById('cep').value = data.perfil.cep;
+                if(document.getElementById('cidade')) document.getElementById('cidade').value = data.perfil.cidade;
+                if(document.getElementById('estado')) document.getElementById('estado').value = data.perfil.estado;
+                if(document.getElementById('curso')) document.getElementById('curso').value = data.perfil.curso;
+                
+                const radioFormacao = document.querySelector(`input[name="formacao"][value="${data.perfil.formacao}"]`);
+                if (radioFormacao) radioFormacao.checked = true;
 
-                    if (data.perfil.competencias) {
-                        data.perfil.competencias.forEach(skill => {
-                            const box = document.querySelector(`input[name="skills"][value="${skill}"]`);
-                            if (box) box.checked = true;
-                        });
-                    }
-                    if (data.perfil.comportamentais) {
-                        data.perfil.comportamentais.forEach(skill => {
-                            const box = document.querySelector(`input[name="soft_skills"][value="${skill}"]`);
-                            if (box) box.checked = true;
-                        });
-                    }
+                if (data.perfil.competencias) {
+                    data.perfil.competencias.forEach(skill => {
+                        const box = document.querySelector(`input[name="skills"][value="${skill}"]`);
+                        if (box) box.checked = true;
+                    });
+                }
+                if (data.perfil.comportamentais) {
+                    data.perfil.comportamentais.forEach(skill => {
+                        const box = document.querySelector(`input[name="soft_skills"][value="${skill}"]`);
+                        if (box) box.checked = true;
+                    });
                 }
             }
-        });
+        }
+    })
+    .catch(error => console.error("Erro ao carregar dados do usuário:", error));
 
-    // 📍 LÓGICA DO VIA CEP DINÂMICA (Ao sair do campo CEP)
+    // 📍 LÓGICA DO VIA CEP DINÂMICA
     const campoCep = document.getElementById('cep');
     if (campoCep) {
         campoCep.addEventListener('blur', async () => {
@@ -95,13 +101,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 📍 ENVIO DO FORMULÁRIO (Com trava assíncrona para o CEP e validação blindada)
+    // 📍 ENVIO DO FORMULÁRIO
     const formPerfil = document.getElementById('formPerfil');
     if (formPerfil) {
         formPerfil.addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            // 🛑 BARREIRA DE SEGURANÇA: Força o JavaScript a esperar a busca do CEP antes de continuar
+            // Desabilita o botão para evitar duplo clique e dá feedback visual
+            const btnSalvar = formPerfil.querySelector('button[type="submit"]');
+            if (btnSalvar) {
+                btnSalvar.disabled = true;
+                btnSalvar.innerText = "Analisando Perfil...";
+            }
+
             const campoCepValue = document.getElementById('cep').value.replace(/\D/g, '');
             if (campoCepValue.length === 8) {
                 try {
@@ -112,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(document.getElementById('cidade')) document.getElementById('cidade').value = "";
                         if(document.getElementById('estado')) document.getElementById('estado').value = "";
                         alert("Não é possível salvar com um CEP inválido.");
+                        if (btnSalvar) { btnSalvar.disabled = false; btnSalvar.innerText = "Analisar Meu Perfil"; }
                         return; 
                     } else {
                         if(document.getElementById('cidade')) document.getElementById('cidade').value = dataCep.localidade;
@@ -122,18 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 🔑 CAPTURA DOS DADOS (Reestabelecendo as definições das variáveis que sumiram)
             const campoCpfElement = document.getElementById('cpf');
             const cpfValue = campoCpfElement ? campoCpfElement.value : "";
             const formacaoInput = document.querySelector('input[name="formacao"]:checked');
             
             if (!validarCPF(cpfValue)) {
                 alert("CPF inválido.");
+                if (btnSalvar) { btnSalvar.disabled = false; btnSalvar.innerText = "Analisar Meu Perfil"; }
                 return;
             }
 
+            // O token não vai mais aqui! Ele vai no Header!
             const dadosParaBackend = {
-                token: tokenAtivo,
                 cpf: cpfValue,
                 cep: document.getElementById('cep').value,
                 cidade: document.getElementById('cidade').value, 
@@ -144,29 +157,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 comportamentais: Array.from(document.querySelectorAll('input[name="soft_skills"]:checked')).map(el => el.value)
             };
 
-            // 🚀 ENVIO SEGURO PARA A API C#
+            // 🚀 ENVIO SEGURO PARA A API C# COM JWT NO HEADER
             fetch('http://localhost:5200/api/perfil/salvar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': `Bearer ${tokenAtivo}`,
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify(dadosParaBackend)
             })
             .then(res => {
-                if (!res.ok) {
-                    return res.text().then(textoErro => { throw new Error(textoErro || `Erro ${res.status}`); });
-                }
+                if (res.status === 401) throw new Error("Sessão expirada. Faça login novamente.");
+                if (!res.ok) return res.text().then(textoErro => { throw new Error(textoErro || `Erro ${res.status}`); });
                 return res.json();
             })
             .then(data => {
                 if (data.sucesso) {
                     alert(data.mensagem);
-                    window.location.href = 'scanner.html'; // Move para a tela de scanner!
+                    window.location.href = 'scanner.html'; 
                 } else {
                     alert('Erro do sistema: ' + data.mensagem);
+                    if (btnSalvar) { btnSalvar.disabled = false; btnSalvar.innerText = "Analisar Meu Perfil"; }
                 }
             })
             .catch(error => {
                 console.error("❌ Falha crítica no salvamento:", error);
-                alert("Não foi possível salvar os dados. Detalhes: " + error.message);
+                alert(error.message);
+                if (btnSalvar) { btnSalvar.disabled = false; btnSalvar.innerText = "Analisar Meu Perfil"; }
             });
         });
     }
