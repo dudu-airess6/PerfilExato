@@ -212,4 +212,4 @@ public class Inscricao
 public record DadosCadastroDTO(string nome, string email, string senha);
 public record DadosLoginDTO(string email, string senha);
 public record NovaCandidaturaDTO(string token, string tituloVaga, string empresa);
-public record DadosPerfilDTO(string token, string cpf, string cep, string city, string cidade, string estado, string curso, string formacao, string[] competencias, string[] comportamentais);
+public record DadosPerfilDTO(string token, string cpf, string cep, string cidade, string estado, string curso, string formacao, string[] competencias, string[] comportamentais);

@@ -4684,11 +4684,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\PerfilExatoBackend\\PerfilExatoBackend.csproj",
+      "projectUniqueName": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\backend\\PerfilExatoBackend.csproj",
       "projectName": "PerfilExatoBackend",
-      "projectPath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\PerfilExatoBackend\\PerfilExatoBackend.csproj",
+      "projectPath": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\backend\\PerfilExatoBackend.csproj",
       "packagesPath": "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\PerfilExatoBackend\\obj\\",
+      "outputPath": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tarde.cetafest.LABFIES\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PerfilExatoBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+036def8918fda713eaee4dc2d1c240aadcfbe6ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff3b9574ff610cde576aa27d21e0d054ab37c368")]
 [assembly: System.Reflection.AssemblyProductAttribute("PerfilExatoBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PerfilExatoBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

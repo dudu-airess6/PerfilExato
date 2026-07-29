@@ -72,11 +72,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+    // 📍 LÓGICA DO VIA CEP DINÂMICA (Ao sair do campo CEP)
+    const campoCep = document.getElementById('cep');
+    if (campoCep) {
+        campoCep.addEventListener('blur', async () => {
+            const cep = campoCep.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const data = await response.json();
+                    
+                    if (data.erro) {
+                        if(document.getElementById('cidade')) document.getElementById('cidade').value = "";
+                        if(document.getElementById('estado')) document.getElementById('estado').value = "";
+                        alert("CEP não encontrado! Verifique o número digitado.");
+                    } else {
+                        if(document.getElementById('cidade')) document.getElementById('cidade').value = data.localidade;
+                        if(document.getElementById('estado')) document.getElementById('estado').value = data.uf;
+                    }
+                } catch (e) { console.error(e); }
+            }
+        });
+    }
+
+    // 📍 ENVIO DO FORMULÁRIO (Com trava assíncrona para o CEP e validação blindada)
     const formPerfil = document.getElementById('formPerfil');
     if (formPerfil) {
-        formPerfil.addEventListener('submit', function(event) {
+        formPerfil.addEventListener('submit', async function(event) {
             event.preventDefault();
-            const cpfValue = document.getElementById('cpf').value;
+
+            // 🛑 BARREIRA DE SEGURANÇA: Força o JavaScript a esperar a busca do CEP antes de continuar
+            const campoCepValue = document.getElementById('cep').value.replace(/\D/g, '');
+            if (campoCepValue.length === 8) {
+                try {
+                    const responseCep = await fetch(`https://viacep.com.br/ws/${campoCepValue}/json/`);
+                    const dataCep = await responseCep.json();
+                    
+                    if (dataCep.erro) {
+                        if(document.getElementById('cidade')) document.getElementById('cidade').value = "";
+                        if(document.getElementById('estado')) document.getElementById('estado').value = "";
+                        alert("Não é possível salvar com um CEP inválido.");
+                        return; 
+                    } else {
+                        if(document.getElementById('cidade')) document.getElementById('cidade').value = dataCep.localidade;
+                        if(document.getElementById('estado')) document.getElementById('estado').value = dataCep.uf;
+                    }
+                } catch (e) { 
+                    console.error("Erro ao garantir o CEP antes de salvar:", e); 
+                }
+            }
+
+            // 🔑 CAPTURA DOS DADOS (Reestabelecendo as definições das variáveis que sumiram)
+            const campoCpfElement = document.getElementById('cpf');
+            const cpfValue = campoCpfElement ? campoCpfElement.value : "";
             const formacaoInput = document.querySelector('input[name="formacao"]:checked');
             
             if (!validarCPF(cpfValue)) {
@@ -88,46 +136,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 token: tokenAtivo,
                 cpf: cpfValue,
                 cep: document.getElementById('cep').value,
-                cidade: document.getElementById('cidade').value,
-                estado: document.getElementById('estado').value,
+                cidade: document.getElementById('cidade').value, 
+                estado: document.getElementById('estado').value,  
                 curso: document.getElementById('curso').value,
                 formacao: formacaoInput ? formacaoInput.value : "Não informado",
                 competencias: Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(el => el.value),
                 comportamentais: Array.from(document.querySelectorAll('input[name="soft_skills"]:checked')).map(el => el.value)
             };
 
+            // 🚀 ENVIO SEGURO PARA A API C#
             fetch('http://localhost:5200/api/perfil/salvar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosParaBackend)
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    return res.text().then(textoErro => { throw new Error(textoErro || `Erro ${res.status}`); });
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.sucesso) {
                     alert(data.mensagem);
-                    window.location.href = 'scanner.html';
+                    window.location.href = 'scanner.html'; // Move para a tela de scanner!
                 } else {
-                    alert('Erro: ' + data.mensagem);
+                    alert('Erro do sistema: ' + data.mensagem);
                 }
+            })
+            .catch(error => {
+                console.error("❌ Falha crítica no salvamento:", error);
+                alert("Não foi possível salvar os dados. Detalhes: " + error.message);
             });
-        });
-    }
-
-    // LÓGICA DO VIA CEP MANTIDA
-    const campoCep = document.getElementById('cep');
-    if (campoCep) {
-        campoCep.addEventListener('blur', async () => {
-            const cep = campoCep.value.replace(/\D/g, '');
-            if (cep.length === 8) {
-                try {
-                    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-                    const data = await response.json();
-                    if (!data.erro) {
-                        document.getElementById('cidade').value = data.localidade;
-                        document.getElementById('estado').value = data.uf;
-                    }
-                } catch (e) { console.error(e); }
-            }
         });
     }
 });
