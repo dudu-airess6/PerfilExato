@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Normaliza as variáveis do C# para rodar na sua lógica original
+        // Ajustado aqui: Trocado '=' por ':' que estava quebrando o script
         const dadosSalvos = {
             nome: data.nome,
             curso: data.perfil.curso || '',
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             estado: data.perfil.estado || '',
             cep: data.perfil.cep || '',
             formacao: data.perfil.formacao || '',
-            competencias = data.perfil.competencias || [],
-            comportamentais = data.perfil.comportamentais || []
+            competencias: data.perfil.competencias || [],
+            comportamentais: data.perfil.comportamentais || []
         };
 
         // --- 📊 CÁLCULO DE PRONTIDÃO ATUALIZADO COM PESOS DO MERCADO ---
@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const qtdSoft = dadosSalvos.comportamentais.length;
         pontuacaoProntidao += Math.min(qtdSoft * 10, 30); 
         
-        // Trava de segurança para o teto do gráfico
         if (pontuacaoProntidao > 100) pontuacaoProntidao = 100;
 
         let corBarra = '#d32f2f'; 
