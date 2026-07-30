@@ -149,3 +149,4 @@ C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\n
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\PerfilExatoBackend.pdb
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\PerfilExatoBackend.genruntimeconfig.cache
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\ref\PerfilExatoBackend.dll
+C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -35,8 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!tokenAtivo) { exibirEstadoVazio(); return; }
 
-    fetch(`http://localhost:5200/api/usuario?token=${tokenAtivo}`)
-        .then(response => response.json())
+    // Fetch do usuário usando o Header de Autorização
+    fetch('http://localhost:5200/api/usuario', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${tokenAtivo}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (response.status === 401) throw new Error("Sessão expirada");
+            return response.json();
+        })
         .then(data => {
             if (!data.sucesso || !data.perfil) { exibirEstadoVazio(); return; }
 
@@ -45,18 +55,31 @@ document.addEventListener('DOMContentLoaded', () => {
             let htmlVagas = '';
 
             vagasDisponiveis.forEach((vaga, index) => {
-                let totalRequisitos = vaga.hardRequired.length + vaga.softRequired.length;
-                let meusMatches = 0;
+                // 🧮 NOVA MATEMÁTICA COM PESOS: Hard valem 2 pontos, Soft valem 1 ponto
+                let totalPontosPossiveis = (vaga.hardRequired.length * 2) + (vaga.softRequired.length * 1);
+                let pontosObtidos = 0;
                 let skillsEncontradas = [];
 
+                // Validação das Hard Skills (Peso 2)
                 vaga.hardRequired.forEach(req => {
-                    if (dadosAluno.competencias && dadosAluno.competencias.includes(req)) { meusMatches++; skillsEncontradas.push(req); }
-                });
-                vaga.softRequired.forEach(soft => {
-                    if (dadosAluno.comportamentais && dadosAluno.comportamentais.includes(soft)) { meusMatches++; skillsEncontradas.push(soft); }
+                    if (dadosAluno.competencias && dadosAluno.competencias.includes(req)) { 
+                        pontosObtidos += 2; 
+                        skillsEncontradas.push(req); 
+                    }
                 });
 
-                const porcentagem = Math.round((meusMatches / totalRequisitos) * 100);
+                // Validação das Soft Skills (Peso 1)
+                vaga.softRequired.forEach(soft => {
+                    if (dadosAluno.comportamentais && dadosAluno.comportamentais.includes(soft)) { 
+                        pontosObtidos += 1; 
+                        skillsEncontradas.push(soft); 
+                    }
+                });
+
+                // Mapeia os dados para as suas variáveis originais de exibição
+                const porcentagem = Math.round((pontosObtidos / totalPontosPossiveis) * 100);
+                const meusMatches = skillsEncontradas.length;
+                const totalRequisitos = vaga.hardRequired.length + vaga.softRequired.length;
 
                 let corBadge = '#d32f2f';
                 let estadoBotao = '';
@@ -106,12 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const index = this.getAttribute('data-index');
                     const vagaSelecionada = vagasDisponiveis[index];
 
-                    // Faz o envio real para o histórico do backend
+                    // Fetch da candidatura usando o Header e limpando o Body
                     fetch('http://localhost:5200/api/vagas/candidatar', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Authorization': `Bearer ${tokenAtivo}`,
+                            'Content-Type': 'application/json' 
+                        },
                         body: JSON.stringify({
-                            token: tokenAtivo,
                             tituloVaga: vagaSelecionada.titulo,
                             empresa: vagaSelecionada.empresa
                         })
@@ -132,5 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     .catch(() => alert("Erro ao registrar candidatura no servidor."));
                 });
             });
+        })
+        .catch(err => {
+            console.error(err);
+            exibirEstadoVazio(); 
         });
 });
