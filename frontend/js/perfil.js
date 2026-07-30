@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 👇 AQUI ESTÁ A CORREÇÃO: Enviando o Token JWT no Header
+    // Enviando o Token JWT no Header
     fetch('http://localhost:5200/api/usuario', {
         method: 'GET',
         headers: {
@@ -41,21 +41,27 @@ document.addEventListener('DOMContentLoaded', () => {
             estado: data.perfil.estado || '',
             cep: data.perfil.cep || '',
             formacao: data.perfil.formacao || '',
-            competencias: data.perfil.competencias || [],
-            comportamentais: data.perfil.comportamentais || []
+            competencias = data.perfil.competencias || [],
+            comportamentais = data.perfil.comportamentais || []
         };
 
-        // --- SEU CÁLCULO DE PRONTIDÃO ORIGINAL PRESERVADO ---
+        // --- 📊 CÁLCULO DE PRONTIDÃO ATUALIZADO COM PESOS DO MERCADO ---
         let pontuacaoProntidao = 0;
+        
+        // 1. Escolaridade/Formação (Máx: 20 pontos)
         if (dadosSalvos.formacao) {
             pontuacaoProntidao += dadosSalvos.formacao.includes("Incompleto") ? 10 : 20;
         }
+        
+        // 2. Hard Skills - Peso Maior (Máx: 50 pontos)
         const qtdHard = dadosSalvos.competencias.length;
-        pontuacaoProntidao += Math.min(qtdHard * 10, 40);
+        pontuacaoProntidao += Math.min(qtdHard * 10, 50); 
         
+        // 3. Soft Skills - Peso Menor (Máx: 30 pontos)
         const qtdSoft = dadosSalvos.comportamentais.length;
-        pontuacaoProntidao += Math.min(qtdSoft * 10, 40);
+        pontuacaoProntidao += Math.min(qtdSoft * 10, 30); 
         
+        // Trava de segurança para o teto do gráfico
         if (pontuacaoProntidao > 100) pontuacaoProntidao = 100;
 
         let corBarra = '#d32f2f'; 
