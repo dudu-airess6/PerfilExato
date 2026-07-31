@@ -1,93 +1,210 @@
+/* =========================================
+   ESTRUTURA GERAL (AUTENTICAÇÃO COM FUNDO)
+   ========================================= */
+
 .login-body {
-    background-color: #f0f2f5; /* Um cinza um pouco mais moderno, estilo sistema web */
+    position: relative; /* Necessário para ancorar o fundo opaco */
+    background-color: #f8fafc; /* O fundo cinza limpo de base */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
+/* 🖼️ Efeito de Foto de Fundo Opaca */
+.login-body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Caminho corrigido para sair da pasta css/ e buscar a foto na img/ */
+    background-image: url('../img/pauta-de-reuniao.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Controle a opacidade aqui: 0.15 significa 15% de visibilidade */
+    opacity: 0.15; 
+    
+    /* Camada intermediária: fica na frente do cinza, mas atrás do formulário */
+    z-index: 1; 
+    pointer-events: none; /* Evita que o fundo bloqueie cliques nos campos */
+}
+
+/* 📦 O Card do Formulário Branco */
 .login-container {
+    position: relative; /* Ativa o contexto para o z-index funcionar */
+    z-index: 2; /* Fica no topo de todas as camadas, flutuando sobre o fundo */
+    
     background-color: #ffffff;
     padding: 40px;
-    border-radius: 10px; /* Bordas arredondadas e suaves */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra mais difusa e flutuante */
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05); /* Sombra suave */
     width: 100%;
-    max-width: 420px;
-    border-top: 6px solid #2e7d32; /* Linha de destaque verde no topo */
+    max-width: 440px; 
+    border-top: 6px solid #2e7d32; /* Identidade Verde PerfilExato */
+    box-sizing: border-box;
 }
 
+/* =========================================
+   BRANDING E TEXTOS
+   ========================================= */
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-family: 'Merriweather', serif;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+.logo-icone-login {
+    height: 32px;
+    width: auto;
+}
+
+.form-box h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #1E293B;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 28px;
+}
+
+/* =========================================
+   CAMPOS DE ENTRADA (INPUTS)
+   ========================================= */
+
 .input-group {
-    margin-bottom: 20px; /* Mais respiro entre os campos */
+    margin-bottom: 20px;
     text-align: left;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: 600; /* Negrito mais elegante */
-    color: #333;
-    font-size: 0.95em;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #475569;
+    font-size: 0.9rem;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px 15px; /* Inputs maiores e mais confortáveis para digitar */
-    border: 1.5px solid #d1d5db;
+    padding: 12px 16px;
+    border: 1.5px solid #E2E8F0;
     border-radius: 8px; 
     box-sizing: border-box;
-    font-size: 1em;
-    background-color: #fafafa;
-    transition: all 0.3s ease; /* Animação suave para as mudanças de cor */
+    font-size: 0.95rem;
+    background-color: #F8FAFC;
+    color: #1E293B;
+    transition: all 0.2s ease;
 }
 
-/* O SEGREDO DO FORMULÁRIO MODERNO: O Efeito de Foco (quando o utilizador clica no campo) */
+.input-group input::placeholder {
+    color: #94A3B8;
+}
+
+/* Foco nos Inputs com Brilho Verde */
 .input-group input:focus {
     border-color: #2e7d32;
     background-color: #ffffff;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15); /* Um "brilho" verde em volta do input */
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
 }
+
+/* =========================================
+   BOTÕES DE SUBMISSÃO E AÇÃO
+   ========================================= */
+
+/* Botão Principal (Entrar / Criar Conta) */
+.btn-auth-submit {
+    width: 100%;
+    margin-top: 8px;
+    background-color: #2e7d32; 
+    color: #ffffff;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-auth-submit:hover {
+    background-color: #1b5e20; 
+    transform: translateY(-1px);
+}
+
+.btn-auth-submit:active {
+    transform: translateY(1px);
+    transform: scale(0.98); 
+}
+
+/* Botão Secundário (Voltar para o início) */
+.btn-auth-secondary {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    background-color: transparent;
+    border: 1.5px solid #2e7d32;
+    color: #2e7d32;
+    padding: 12.5px 20px; 
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-auth-secondary:hover {
+    background-color: rgba(46, 125, 50, 0.05); 
+    transform: translateY(-1px);
+}
+
+.btn-auth-secondary:active {
+    transform: translateY(1px);
+    transform: scale(0.98);
+}
+
+/* =========================================
+   LINKS DE TRANSIÇÃO (RODAPÉ)
+   ========================================= */
 
 .toggle-text {
     text-align: center;
-    margin-top: 25px;
-    color: #666;
-    font-size: 0.95em;
-    border-top: 1px solid #eee; /* Linha separadora sutil antes do link */
+    margin-top: 24px;
+    color: #64748B;
+    font-size: 0.9rem;
+    border-top: 1px solid #E2E8F0;
     padding-top: 20px;
 }
 
 .toggle-link {
     color: #2e7d32;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 .toggle-link:hover {
+    color: #1b5e20;
     text-decoration: underline;
-    color: #1b5e20; /* Fica um verde mais escuro ao passar o rato */
-}
-/* ESTILO DO BOTÃO PRINCIPAL (Entrar / Criar Conta) */
-.btn-primary {
-    background-color: #2e7d32; /* O seu verde escuro padrão */
-    color: #ffffff; /* Texto branco */
-    border: none;
-    padding: 14px 20px;
-    font-size: 1.05em;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-}
-
-/* Efeito ao passar o rato (fica um verde mais escuro) */
-.btn-primary:hover {
-    background-color: #1b5e20; 
-}
-
-/* Efeito de "clique" (o botão afunda ligeiramente) */
-.btn-primary:active {
-    transform: scale(0.98);
 }
