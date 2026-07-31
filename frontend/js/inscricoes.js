@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
     }
 
-    if (!tokenAtivo) {
-        window.location.href = 'login.html';
-        return;
-    }
 
     // Carrega o histórico de inscrições do usuário
     fetch('http://localhost:5200/api/usuario', {

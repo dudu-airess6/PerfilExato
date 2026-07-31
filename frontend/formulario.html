@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PerfilExato SENAI - Criar Perfil</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/formulario.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
 </head>
+
 <body>
 
     <div class="top-bar">
@@ -20,66 +24,76 @@
 
     <header class="navbar">
         <div class="nav-container">
-           <div class="logo">
-                <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
-                PerfilExato
+
+            <!-- AGRUPAMENTO ESQUERDO: Botão Entrar + Logo -->
+            <div class="brand-area">
+                <div class="logo">
+                    <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
+                    PerfilExato
+                </div>
+
+                <!-- 2º O Botão vem depois (ficará do lado direito da logo) -->
+                <a id="nav-login" href="login.html" class="btn-nav-login">Entrar</a>
             </div>
-            
+
+            <!-- AGRUPAMENTO DIREITO: Links -->
             <nav class="nav-links">
-                <a href="index.html">Início</a>
-                <a href="formulario.html" class="active">Formulário</a>
+                <a href="index.html">Início</a> <!-- Não esqueça de ajustar o active dependendo da página! -->
+                <a href="#" class="active">Formulário</a>
                 <a href="perfil.html">Meu Perfil</a>
                 <a href="vagas.html">Vagas</a>
                 <a href="inscricoes.html">Inscrições</a>
             </nav>
+
         </div>
     </header>
     <main class="form-wrapper">
         <div class="form-container">
-            
+
             <div class="form-header">
                 <h1>Crie o seu Perfil Técnico</h1>
-                <p>Preencha os dados abaixo. O nosso sistema cruzará as suas competências com as vagas disponíveis na indústria.</p>
+                <p>Preencha os dados abaixo. O nosso sistema cruzará as suas competências com as vagas disponíveis na
+                    indústria.</p>
             </div>
 
             <form id="formPerfil" class="perfil-form">
-                
+
                 <div class="form-section">
-    <h3>Dados de Identificação</h3>
-    
-    <div class="input-group">
-        <label for="nome">Nome Completo</label>
-        <input type="text" id="nome" placeholder="Seu nome carregará aqui" required>
-    </div>
+                    <h3>Dados de Identificação</h3>
 
-    <div class="input-group">
-        <label for="email">E-mail Institucional</label>
-        <input type="email" id="email" placeholder="seuemail@senai.br" required>
-    </div>
+                    <div class="input-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" placeholder="Seu nome carregará aqui" required>
+                    </div>
 
-    <div class="input-group">
-        <label for="cpf">CPF (Apenas números)</label>
-        <input type="text" id="cpf" maxlength="14" placeholder="000.000.000-00" required>
-        <small id="cpf-error" style="color: #d32f2f; display: none;">CPF inválido!</small>
-    </div>
+                    <div class="input-group">
+                        <label for="email">E-mail Institucional</label>
+                        <input type="email" id="email" placeholder="seuemail@senai.br" required>
+                    </div>
 
-    <div class="input-group">
-        <label for="cep">CEP</label>
-        <input type="text" id="cep" maxlength="8" placeholder="Digite seu CEP" required>
-        <small id="cep-loading" style="color: #666; display: none;">Buscando endereço...</small>
-    </div>
+                    <div class="input-group">
+                        <label for="cpf">CPF (Apenas números)</label>
+                        <input type="text" id="cpf" maxlength="14" placeholder="000.000.000-00" required>
+                        <small id="cpf-error" style="color: #d32f2f; display: none;">CPF inválido!</small>
+                    </div>
 
-    <div class="input-row" style="display: flex; gap: 10px;">
-        <div class="input-group" style="flex: 2;">
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" readonly style="background-color: #f5f5f5;">
-        </div>
-        <div class="input-group" style="flex: 1;">
-            <label for="estado">Estado</label>
-            <input type="text" id="estado" readonly style="background-color: #f5f5f5;">
-        </div>
-    </div>
-</div>
+                    <div class="input-group">
+                        <label for="cep">CEP</label>
+                        <input type="text" id="cep" maxlength="8" placeholder="Digite seu CEP" required>
+                        <small id="cep-loading" style="color: #666; display: none;">Buscando endereço...</small>
+                    </div>
+
+                    <div class="input-row" style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex: 2;">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" readonly style="background-color: #f5f5f5;">
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label for="estado">Estado</label>
+                            <input type="text" id="estado" readonly style="background-color: #f5f5f5;">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label for="curso">Curso Técnico SENAI</label>
@@ -95,7 +109,7 @@
                 <div class="form-group">
                     <label>Nível de Formação</label>
                     <p class="help-text">Selecione a sua escolaridade atual:</p>
-                    
+
                     <div class="skills-grid">
                         <div class="skill-item">
                             <input type="radio" id="formacao1" name="formacao" value="Ensino Medio Incompleto">
@@ -120,48 +134,48 @@
                     </div>
                 </div>
                 <div class="form-group">
-    <label>Competências Comportamentais (Soft Skills)</label>
-    <p class="help-text">Selecione as características que melhor descrevem o seu perfil de trabalho:</p>
-    
-    <div class="skills-grid">
-        <div class="skill-item">
-            <input type="checkbox" id="soft1" name="soft_skills" value="Proatividade">
-            <label for="soft1">Proatividade</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft2" name="soft_skills" value="Trabalho em Equipe">
-            <label for="soft2">Trabalho em Equipe</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft3" name="soft_skills" value="Comunicativo">
-            <label for="soft3">Comunicação Assertiva</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft4" name="soft_skills" value="Organizacão">
-            <label for="soft4">Organização e Foco</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft5" name="soft_skills" value="Pontualidade">
-            <label for="soft5">Pontualidade e Ética</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft6" name="soft_skills" value="Resolucao de Problemas">
-            <label for="soft6">Resolução de Problemas</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft7" name="soft_skills" value="Gerenciamento">
-            <label for="soft7">Gerenciamento</label>
-        </div>
-        <div class="skill-item">
-            <input type="checkbox" id="soft8" name="soft_skills" value="Compreensivo">
-            <label for="soft8">Compreensivo</label>
-        </div>
-    </div>
-</div>
+                    <label>Competências Comportamentais (Soft Skills)</label>
+                    <p class="help-text">Selecione as características que melhor descrevem o seu perfil de trabalho:</p>
+
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft1" name="soft_skills" value="Proatividade">
+                            <label for="soft1">Proatividade</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft2" name="soft_skills" value="Trabalho em Equipe">
+                            <label for="soft2">Trabalho em Equipe</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft3" name="soft_skills" value="Comunicativo">
+                            <label for="soft3">Comunicação Assertiva</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft4" name="soft_skills" value="Organizacão">
+                            <label for="soft4">Organização e Foco</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft5" name="soft_skills" value="Pontualidade">
+                            <label for="soft5">Pontualidade e Ética</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft6" name="soft_skills" value="Resolucao de Problemas">
+                            <label for="soft6">Resolução de Problemas</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft7" name="soft_skills" value="Gerenciamento">
+                            <label for="soft7">Gerenciamento</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="soft8" name="soft_skills" value="Compreensivo">
+                            <label for="soft8">Compreensivo</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Selecione as suas Competências Práticas (Hard Skills)</label>
                     <p class="help-text">Clique nas tecnologias e ferramentas que domina:</p>
-                    
+
                     <div class="skills-grid">
                         <div class="skill-item">
                             <input type="checkbox" id="skill1" name="skills" value="AutoCAD">
@@ -196,22 +210,22 @@
                             <label for="skill8">Normas NR10 / Segurança</label>
                         </div>
                         <div class="skill-item">
-    <input type="checkbox" id="skill9" name="skills" value="FrontEnd">
-    <label for="skill9">FrontEnd</label>
-</div>
-<div class="skill-item">
-    <input type="checkbox" id="skill10" name="skills" value="BackEnd">
-    <label for="skill10">BackEnd</label>
-</div>
-<div class="skill-item">
-    <input type="checkbox" id="skill11" name="skills" value="Banco de dados">
-    <label for="skill11">Banco de dados</label>
-</div>
-<div class="skill-item">
-    <input type="checkbox" id="skill12" name="skills" value="API">
-    <label for="skill12">API</label>
-</div>
-                    
+                            <input type="checkbox" id="skill9" name="skills" value="FrontEnd">
+                            <label for="skill9">FrontEnd</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill10" name="skills" value="BackEnd">
+                            <label for="skill10">BackEnd</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill11" name="skills" value="Banco de dados">
+                            <label for="skill11">Banco de dados</label>
+                        </div>
+                        <div class="skill-item">
+                            <input type="checkbox" id="skill12" name="skills" value="API">
+                            <label for="skill12">API</label>
+                        </div>
+
                     </div>
                 </div>
 
@@ -226,12 +240,14 @@
     <footer class="footer-simple">
         <p>&copy; 2026 PerfilExato • SENAI</p>
     </footer>
-<div class="scroll-arrow" id="scrollArrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F4F1EA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+    <div class="scroll-arrow" id="scrollArrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F4F1EA" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
         </svg>
     </div>
     <script src="js/script.js"></script>
     <script src="js/formulario.js"></script>
 </body>
+
 </html>

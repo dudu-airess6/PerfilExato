@@ -17,20 +17,30 @@
     </div>
 
      <header class="navbar">
-        <div class="nav-container">
+    <div class="nav-container">
+        
+        <!-- AGRUPAMENTO ESQUERDO: Botão Entrar + Logo -->
+        <div class="brand-area">
             <div class="logo">
-                <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
-                PerfilExato
-            </div>
-            <nav class="nav-links">
-                <a href="index.html">Início</a>
-                <a href="formulario.html">Formulário</a>
-                <a href="perfil.html">Meu Perfil</a>
-                <a href="vagas.html">Vagas</a>
-                <a href="#" class="active">Inscrições</a>
-            </nav>
+        <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
+        PerfilExato
+    </div>
+
+    <!-- 2º O Botão vem depois (ficará do lado direito da logo) -->
+    <a id="nav-login" href="login.html" class="btn-nav-login">Entrar</a>
         </div>
-    </header>
+        
+        <!-- AGRUPAMENTO DIREITO: Links -->
+        <nav class="nav-links">
+            <a href="index.html">Início</a> <!-- Não esqueça de ajustar o active dependendo da página! -->
+            <a href="formulario.html">Formulário</a>
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="vagas.html">Vagas</a>
+            <a href="#" class="active">Inscrições</a>
+        </nav>
+        
+    </div>
+</header>
 
     <main class="dashboard-wrapper">
         <div class="dashboard-card" style="width: 100%;">
@@ -44,5 +54,6 @@
     </main>
 
     <script src="js/inscricoes.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

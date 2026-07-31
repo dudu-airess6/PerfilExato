@@ -1,14 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // (O Bloco 1 do formulário foi removido daqui pois agora está a ser controlado pelo formulario.js)
-
     // --- 2. TELA: O SCANNER (scanner.html) ---
-    // Se a página tiver o cartão do scanner, significa que estamos no scanner.html
     const scannerScreen = document.querySelector('.scanner-card');
     if (scannerScreen) {
-        // Aguarda 3.5 segundos (tempo da animação) e redireciona para o Perfil
         setTimeout(function() {
-            window.location.href = "perfil.html"; // <-- CORRIGIDO PARA perfil.html
+            window.location.href = "perfil.html"; 
         }, 3500);
     }
 
@@ -18,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const btnVagas = dashboardCard.querySelector('.btn-primary');
         if (btnVagas) {
             btnVagas.addEventListener('click', function(e) {
-                // Apenas por segurança, se já houver um <a> no HTML, não impede
                 window.location.href = "vagas.html";
             });
         }
@@ -68,5 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     }
+
+    // --- 6. FUNCIONALIDADE DA NAVBAR (Mostra/Esconde Botão Entrar) ---
+    const token = sessionStorage.getItem('token_perfilExato');
+    const botaoLoginNav = document.getElementById('nav-login');
+
+    if (botaoLoginNav) {
+        if (!token) {
+            botaoLoginNav.style.display = 'inline-block'; // Mostra se deslogado
+        } else {
+            botaoLoginNav.style.display = 'none'; // Esconde se logado
+        }
+    }
     
-});
+}); // <- Este é o fechamento do único DOMContentLoaded da página

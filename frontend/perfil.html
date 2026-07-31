@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PerfilExato SENAI - Meu Perfil</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/perfil.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
 </head>
+
 <body>
 
     <div class="top-bar">
@@ -20,22 +24,32 @@
 
     <header class="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
-                PerfilExato
+
+            <!-- AGRUPAMENTO ESQUERDO: Botão Entrar + Logo -->
+            <div class="brand-area">
+                <div class="logo">
+                    <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone">
+                    PerfilExato
+                </div>
+
+                <!-- 2º O Botão vem depois (ficará do lado direito da logo) -->
+                <a id="nav-login" href="login.html" class="btn-nav-login">Entrar</a>
             </div>
+
+            <!-- AGRUPAMENTO DIREITO: Links -->
             <nav class="nav-links">
-                <a href="index.html">Início</a>
+                <a href="index.html">Início</a> <!-- Não esqueça de ajustar o active dependendo da página! -->
                 <a href="formulario.html">Formulário</a>
                 <a href="#" class="active">Meu Perfil</a>
                 <a href="vagas.html">Vagas</a>
                 <a href="inscricoes.html">Inscrições</a>
             </nav>
+
         </div>
     </header>
 
     <main class="dashboard-wrapper" id="conteudo-perfil">
-        
+
         <!-- Bloco 1: O Painel do Perfil (Inicia oculto, JS ativa se houver dados) -->
         <div class="dashboard-card" id="painel-dashboard" style="display: none; width: 100%;">
             <div class="profile-header">
@@ -92,6 +106,7 @@
 
             <div class="profile-footer">
                 <a href="vagas.html" class="btn-success-large">Ver Vagas Compatíveis &rarr;</a>
+                <button id="btn-logout" class="btn-logout">🚪 Sair da Conta</button>
             </div>
         </div>
 
@@ -107,4 +122,5 @@
     <script src="js/script.js"></script>
     <script src="js/perfil.js"></script>
 </body>
+
 </html>

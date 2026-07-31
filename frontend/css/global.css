@@ -71,6 +71,41 @@ p {
 /* =========================================================
    4. COMPONENTES COMUNS: TOPO E NAVEGAÇÃO
    ========================================================= */
+/* Agrupa o botão Entrar e a Logo juntos no lado esquerdo */
+.brand-area {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Distância entre o botão e a logo */
+}
+
+/* Estilo do Botão Dinâmico de Login */
+.btn-nav-login {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--primary-green-dark);
+    border: 2px solid var(--primary-green-dark);
+    padding: 6px 16px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    display: none; /* Inicia oculto para o JS controlar */
+    text-decoration: none;
+}
+
+.btn-nav-login:hover {
+    background-color: var(--primary-green-dark);
+    color: var(--text-light);
+}
+
+/* Responsividade: centraliza tudo no celular se a tela for pequena */
+@media (max-width: 600px) {
+    .brand-area {
+        flex-direction: column-reverse; /* No mobile a logo fica em cima e o botão embaixo */
+        gap: 10px;
+    }
+}
 .top-bar {
     background-color: var(--primary-green-dark);
     color: var(--text-light);
@@ -99,7 +134,7 @@ p {
 .logo {
     font-family: var(--font-serif); /* Garante que o Logo usa Merriweather */
     font-size: 1.75rem;
-    font-weight: 900;
+    font-weight: 450;
     letter-spacing: -0.5px;
     color: var(--primary-green-dark);
     margin: 0;
@@ -136,6 +171,7 @@ p {
     color: var(--primary-green-dark);
     border-bottom: 2px solid var(--border-color);
 }
+
 
 /* =========================================================
    5. COMPONENTES COMUNS: RODAPÉ SIMPLES
