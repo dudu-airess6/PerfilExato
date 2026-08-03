@@ -157,3 +157,15 @@ select:focus {
         padding: 30px 20px; 
     }
 }
+/* Transição suave nos campos com erro */
+.input-group input, .form-group select {
+    transition: border-color 0.2s ease;
+}
+
+/* Mensagens de erro abaixo dos inputs */
+.field-error-msg {
+    color: #d32f2f;
+    font-size: 0.82rem;
+    margin-top: 4px;
+    font-weight: 500;
+}
