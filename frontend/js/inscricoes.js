@@ -91,6 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         })
         .catch(() => {
-            container.innerHTML = `<h2>Erro ao carregar histórico de inscrições.</h2>`;
+            container.innerHTML = `<h2>Erro ao carregar histórico de inscrições. Inscreva-se em uma vaga</h2>`;
         });
 });

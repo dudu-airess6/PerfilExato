@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
         .then(response => {
             if (response.status === 401) {
-                throw new Error("Sessão expirada. Faça login novamente.");
+                throw new Error("Sessão expirada! Faça login.");
             }
             return response.json();
         })
