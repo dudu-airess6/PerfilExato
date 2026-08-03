@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PerfilExato SENAI - Criar Conta</title>
-    
+
     <!-- Fontes Oficiais da Plataforma -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
 </head>
+
 <body class="login-body">
 
     <div class="login-container">
         <div class="form-box">
-            
+
             <!-- Logo do Sistema -->
             <div class="login-logo">
                 <img src="img/Logo.png" alt="Logo SENAI" class="logo-icone-login">
                 <span>PerfilExato</span>
             </div>
-            
+
             <h2>Criar Conta</h2>
-            
+            <div id="mensagem-alerta" class="alert-box" style="display: none;"></div>
             <form id="form-cadastro">
                 <div class="input-group">
                     <label for="nome-cadastro">Nome Completo</label>
@@ -49,11 +53,12 @@
                 <button type="submit" class="btn-auth-submit">Criar Conta</button>
                 <a href="index.html" class="btn-auth-secondary">Voltar para o início</a>
             </form>
-            
+
             <p class="toggle-text">Já tem uma conta? <a href="login.html" class="toggle-link">Entre aqui</a></p>
         </div>
     </div>
 
     <script src="js/cadastro.js"></script>
 </body>
+
 </html>
