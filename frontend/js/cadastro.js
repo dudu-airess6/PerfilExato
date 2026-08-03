@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lista com todos os inputs para manipulação de estilos de erro
     const todosInputs = [nomeInput, emailInput, senhaInput, confirmarSenhaInput].filter(Boolean);
 
+    // 📧 Função para validar se o e-mail possui "@" e o ponto "." do domínio (ex: nome@dominio.com)
+    function validarEmail(email) {
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regexEmail.test(email);
+    }
+
     // 🎨 Função para exibir os Alertas Visuais (Erro ou Sucesso)
     function exibirAlerta(mensagem, tipo = 'error', camposComErro = []) {
         if (!msgAlerta) return;
@@ -53,7 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const senha = senhaInput ? senhaInput.value : '';
             const confirmarSenha = confirmarSenhaInput ? confirmarSenhaInput.value : '';
 
-            // 1. 🔍 Validação local: Senhas coincidem?
+            // 1. 🔍 Validação local: Formato de E-mail (Exige @ e .)
+            if (!validarEmail(email)) {
+                exibirAlerta('Por favor, insira um e-mail válido contendo "@" e o domínio (ex: seu@gmail.com).', 'error', [emailInput]);
+                return;
+            }
+
+            // 2. 🔍 Validação local: Senhas coincidem?
             if (senha !== confirmarSenha) {
                 exibirAlerta('As senhas não coincidem! Por favor, digite senhas iguais.', 'error', [senhaInput, confirmarSenhaInput]);
                 return;
@@ -68,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dadosCadastro = { nome, email, senha };
 
             try {
-                // 2. 📡 Conectando à rota de Cadastro do C#
+                // 3. 📡 Conectando à rota de Cadastro do C#
                 const resposta = await fetch('http://localhost:5200/api/cadastro', {
                     method: 'POST',
                     headers: {
