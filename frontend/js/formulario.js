@@ -1,3 +1,4 @@
+// 🔹 Validação Matemática do CPF
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, '');
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false; 
@@ -13,11 +14,90 @@ function validarCPF(cpf) {
     return resto === parseInt(cpf.substring(10, 11));
 }
 
+// 📍 FUNÇÕES DE GERENCIAMENTO DE ERROS INLINE (ABAIXO DOS INPUTS)
+
+// Exibe mensagem de erro logo abaixo de um campo específico
+function mostrarErroCampo(campoId, mensagem) {
+    const campo = document.getElementById(campoId);
+    if (!campo) return;
+
+    // Destaca o input com borda vermelha
+    campo.style.borderColor = "#d32f2f";
+
+    // Busca elemento de erro existente ou cria um novo dinamicamente
+    let msgElement = document.getElementById(`${campoId}-error`);
+    if (!msgElement) {
+        msgElement = document.createElement('small');
+        msgElement.id = `${campoId}-error`;
+        msgElement.className = 'field-error-msg';
+        msgElement.style.color = '#d32f2f';
+        msgElement.style.fontSize = '0.85rem';
+        msgElement.style.marginTop = '4px';
+        msgElement.style.display = 'block';
+        
+        // Insere logo abaixo do input
+        campo.parentNode.appendChild(msgElement);
+    }
+
+    msgElement.innerText = mensagem;
+    msgElement.style.display = 'block';
+}
+
+// Limpa o erro de um campo específico
+function limparErroCampo(campoId) {
+    const campo = document.getElementById(campoId);
+    if (campo) campo.style.borderColor = "";
+
+    const msgElement = document.getElementById(`${campoId}-error`);
+    if (msgElement) {
+        msgElement.style.display = 'none';
+        msgElement.innerText = "";
+    }
+}
+
+// Limpa todos os erros dos campos
+function limparTodosErrosCampos() {
+    document.querySelectorAll('.field-error-msg').forEach(el => {
+        el.style.display = 'none';
+        el.innerText = '';
+    });
+    document.querySelectorAll('input, select').forEach(el => {
+        el.style.borderColor = '';
+    });
+    esconderAlertaGlobal();
+}
+
+// 🔔 Alerta Global (Usado apenas para erros de rede/servidor ou sucesso)
+function exibirAlertaGlobal(mensagem, tipo = 'erro') {
+    const caixaAlerta = document.getElementById('mensagem-alerta');
+    if (!caixaAlerta) return;
+
+    caixaAlerta.innerText = mensagem;
+    caixaAlerta.style.display = 'block';
+
+    if (tipo === 'sucesso') {
+        caixaAlerta.style.backgroundColor = '#d4edda';
+        caixaAlerta.style.color = '#155724';
+        caixaAlerta.style.borderColor = '#c3e6cb';
+    } else {
+        caixaAlerta.style.backgroundColor = '#f8d7da';
+        caixaAlerta.style.color = '#721c24';
+        caixaAlerta.style.borderColor = '#f5c6cb';
+    }
+
+    caixaAlerta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function esconderAlertaGlobal() {
+    const caixaAlerta = document.getElementById('mensagem-alerta');
+    if (caixaAlerta) caixaAlerta.style.display = 'none';
+}
+
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // 🔹 Busca o token salvo na sessão
     const tokenAtivo = sessionStorage.getItem('token_perfilExato'); 
 
-    // 📍 MÁSCARA DE CPF
+    // 📍 CPF: MÁSCARA E VALIDAÇÃO EM TEMPO REAL
     const campoCpf = document.getElementById('cpf');
     if (campoCpf) {
         campoCpf.addEventListener('input', (e) => {
@@ -28,13 +108,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
             }
             e.target.value = v;
+
+            // Limpa o erro enquanto digita
+            limparErroCampo('cpf');
+        });
+
+        campoCpf.addEventListener('blur', () => {
+            if (campoCpf.value && !validarCPF(campoCpf.value)) {
+                mostrarErroCampo('cpf', 'CPF inválido! Verifique os números digitados.');
+            } else {
+                limparErroCampo('cpf');
+            }
         });
     }
 
+    // 📍 CARREGAR DADOS DO USUÁRIO LOGADO
     const campoNome = document.getElementById('nome'); 
     const campoEmail = document.getElementById('email'); 
 
-    // 🔄 RECONEXÃO: Só tenta buscar os dados se o usuário estiver logado
     if (tokenAtivo) {
         try {
             const response = await fetch(`http://localhost:5200/api/usuario`, {
@@ -80,10 +171,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 📍 LÓGICA DO VIA CEP DINÂMICA
     const campoCep = document.getElementById('cep');
+    const cepLoading = document.getElementById('cep-loading');
+
     if (campoCep) {
+        campoCep.addEventListener('input', () => limparErroCampo('cep'));
+
         campoCep.addEventListener('blur', async () => {
             const cep = campoCep.value.replace(/\D/g, '');
             if (cep.length === 8) {
+                if (cepLoading) cepLoading.style.display = 'block';
+                limparErroCampo('cep');
+
                 try {
                     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
                     const data = await response.json();
@@ -91,29 +189,74 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (data.erro) {
                         if(document.getElementById('cidade')) document.getElementById('cidade').value = "";
                         if(document.getElementById('estado')) document.getElementById('estado').value = "";
-                        alert("CEP não encontrado! Verifique o número digitado.");
+                        mostrarErroCampo('cep', 'CEP não encontrado! Verifique o número digitado.');
                     } else {
                         if(document.getElementById('cidade')) document.getElementById('cidade').value = data.localidade;
                         if(document.getElementById('estado')) document.getElementById('estado').value = data.uf;
+                        limparErroCampo('cep');
                     }
                 } catch (e) { 
                     console.error("Erro na busca do CEP:", e); 
+                    mostrarErroCampo('cep', 'Erro ao consultar o CEP.');
+                } finally {
+                    if (cepLoading) cepLoading.style.display = 'none';
                 }
+            } else if (cep.length > 0) {
+                mostrarErroCampo('cep', 'O CEP deve conter 8 dígitos.');
             }
         });
     }
 
-    // 📍 ENVIO DO FORMULÁRIO
+    // 📍 SUBMIT DO FORMULÁRIO
     const formPerfil = document.getElementById('formPerfil');
     if (formPerfil) {
         formPerfil.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Impede o envio imediato
+            event.preventDefault(); 
+            limparTodosErrosCampos();
 
-            // 🛑 BARREIRA DE LOGIN: Verifica se tem token ANTES de fazer qualquer coisa
+            // 🛑 BARREIRA DE LOGIN
             if (!tokenAtivo) {
-                alert("Para analisarmos o seu perfil e te conectar às vagas, faça login na sua conta SENAI!");
-                window.location.href = "login.html"; // Redireciona para o login
-                return; // Para a execução do código aqui mesmo!
+                exibirAlertaGlobal("Para analisarmos o seu perfil e te conectar às vagas, faça login na sua conta SENAI!", "erro");
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+                return;
+            }
+
+            let temErro = false;
+
+            // 1. Validação do CPF
+            const cpfValue = document.getElementById('cpf')?.value || "";
+            if (!validarCPF(cpfValue)) {
+                mostrarErroCampo('cpf', 'Informe um CPF válido.');
+                temErro = true;
+            }
+
+            // 2. Validação do CEP e Endereço
+            const cepValue = document.getElementById('cep')?.value.replace(/\D/g, '') || "";
+            const cidadeValue = document.getElementById('cidade')?.value || "";
+            const estadoValue = document.getElementById('estado')?.value || "";
+            
+            if (cepValue.length !== 8 || !cidadeValue || !estadoValue) {
+                mostrarErroCampo('cep', 'Informe um CEP válido para carregar cidade e estado.');
+                temErro = true;
+            }
+
+            // 3. Validação do Curso
+            const cursoValue = document.getElementById('curso')?.value;
+            if (!cursoValue) {
+                mostrarErroCampo('curso', 'Selecione o seu curso técnico.');
+                temErro = true;
+            }
+
+            // Se encontrou algum erro nos campos, interrompe o envio
+            if (temErro) {
+                // Rola até o primeiro campo com erro
+                const primeiroErro = document.querySelector('.field-error-msg[style*="display: block"]');
+                if (primeiroErro) {
+                    primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
             }
 
             const btnSalvar = formPerfil.querySelector('button[type="submit"]');
@@ -123,38 +266,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                // 1. Validação do CPF
-                const campoCpfElement = document.getElementById('cpf');
-                const cpfValue = campoCpfElement ? campoCpfElement.value : "";
-                if (!validarCPF(cpfValue)) {
-                    alert("CPF inválido.");
-                    throw new Error("Validação Interrompida: CPF");
-                }
-
-                // 2. Validação básica do CEP
-                const cepValue = document.getElementById('cep')?.value.replace(/\D/g, '');
-                const cidadeValue = document.getElementById('cidade')?.value;
-                const estadoValue = document.getElementById('estado')?.value;
-                
-                if (cepValue.length !== 8 || !cidadeValue || !estadoValue) {
-                    alert("Não é possível salvar com um CEP inválido ou em branco.");
-                    throw new Error("Validação Interrompida: CEP");
-                }
-
-                // 3. Preparando os dados
+                // Preparando os dados para o backend
                 const formacaoInput = document.querySelector('input[name="formacao"]:checked');
                 const dadosParaBackend = {
                     cpf: cpfValue,
                     cep: document.getElementById('cep').value,
                     cidade: cidadeValue, 
                     estado: estadoValue,  
-                    curso: document.getElementById('curso').value,
+                    curso: cursoValue,
                     formacao: formacaoInput ? formacaoInput.value : "Não informado",
                     competencias: Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(el => el.value),
                     comportamentais: Array.from(document.querySelectorAll('input[name="soft_skills"]:checked')).map(el => el.value)
                 };
 
-                // 🚀 4. ENVIO SEGURO PARA A API
+                // 🚀 ENVIO PARA A API
                 const res = await fetch('http://localhost:5200/api/perfil/salvar', {
                     method: 'POST',
                     headers: { 
@@ -165,8 +290,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 if (res.status === 401) {
-                    alert("Sessão expirada. Faça login novamente.");
-                    window.location.href = "login.html";
+                    exibirAlertaGlobal("Sessão expirada. Redirecionando para o login...", "erro");
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
                     return;
                 }
                 
@@ -178,24 +305,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const data = await res.json();
                 
                 if (data.sucesso) {
-                    alert(data.mensagem); // Mensagem de sucesso
-                    window.location.href = 'scanner.html'; // Redireciona para o scanner
+                    exibirAlertaGlobal(data.mensagem || "Perfil salvo com sucesso! Redirecionando...", "sucesso");
+                    setTimeout(() => {
+                        window.location.href = 'scanner.html';
+                    }, 1500);
                 } else {
-                    alert('Erro do sistema: ' + data.mensagem);
-                    throw new Error("Erro na API");
+                    exibirAlertaGlobal('Erro do sistema: ' + (data.mensagem || "Não foi possível salvar."), "erro");
                 }
 
             } catch (error) {
-                // Apenas exibe o erro se não for uma das validações que já disparou o alert()
-                if (!error.message.includes("Validação Interrompida")) {
-                    console.error("❌ Falha crítica no salvamento:", error);
-                    alert(error.message);
-                }
+                console.error("❌ Falha no salvamento:", error);
+                exibirAlertaGlobal(error.message || "Falha na comunicação com o servidor.", "erro");
             } finally {
-                // Habilita o botão novamente caso algo falhe
                 if (btnSalvar) { 
                     btnSalvar.disabled = false; 
-                    btnSalvar.innerText = "Analisar Meu Perfil"; 
+                    btnSalvar.innerText = "Analisar Meu Perfil →"; 
                 }
             }
         });
