@@ -43,6 +43,32 @@ function mostrarErroCampo(campoId, mensagem) {
     msgElement.style.display = 'block';
 }
 
+// 🎯 Exibe mensagem de erro especificamente ABAIXO DO BOTÃO de submissão
+function mostrarErroBotao(mensagem) {
+    const btnSalvar = document.querySelector('#formPerfil button[type="submit"]') || document.querySelector('button[type="submit"]');
+    if (!btnSalvar) return;
+
+    let msgElement = document.getElementById('btn-submit-error');
+    if (!msgElement) {
+        msgElement = document.createElement('small');
+        msgElement.id = 'btn-submit-error';
+        msgElement.className = 'field-error-msg';
+        msgElement.style.color = '#d32f2f';
+        msgElement.style.fontSize = '0.95rem';
+        msgElement.style.fontWeight = '600';
+        msgElement.style.marginTop = '12px';
+        msgElement.style.display = 'block';
+        msgElement.style.textAlign = 'center';
+        
+        // Insere logo abaixo do botão
+        btnSalvar.parentNode.appendChild(msgElement);
+    }
+
+    msgElement.innerText = mensagem;
+    msgElement.style.display = 'block';
+    msgElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 // Limpa o erro de um campo específico
 function limparErroCampo(campoId) {
     const campo = document.getElementById(campoId);
@@ -55,7 +81,7 @@ function limparErroCampo(campoId) {
     }
 }
 
-// Limpa todos os erros dos campos
+// Limpa todos os erros dos campos e do botão
 function limparTodosErrosCampos() {
     document.querySelectorAll('.field-error-msg').forEach(el => {
         el.style.display = 'none';
@@ -214,12 +240,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             event.preventDefault(); 
             limparTodosErrosCampos();
 
-            // 🛑 BARREIRA DE LOGIN
+            // 🛑 BARREIRA DE LOGIN (Mensagem exibida ABAIXO do botão)
             if (!tokenAtivo) {
-                exibirAlertaGlobal("Para analisarmos o seu perfil e te conectar às vagas, faça login na sua conta SENAI!", "erro");
+                mostrarErroBotao("Para analisarmos o seu perfil e te conectar às vagas, faça login na sua conta SENAI!");
                 setTimeout(() => {
                     window.location.href = "login.html";
-                }, 2000);
+                }, 2500); // 2.5s para dar tempo do usuário ler
                 return;
             }
 
