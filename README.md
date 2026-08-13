@@ -1,7 +1,7 @@
 Perfil Exato — SENAI
-Plataforma Inteligente de Conexão entre Candidatos e Oportunidades do Mercado de Trabalho.
+Plataforma Inteligente de Conexão entre Candidatos do SENAI e Oportunidades do Mercado de Trabalho.
 
-O Perfil Exato é uma aplicação web desenvolvida para mapear as habilidades técnicas (hard skills) e comportamentais (soft skills) de candidatos, comparando-as em tempo real com os requisitos de vagas do mercado através de um Motor de Match Algorítmico.
+O Perfil Exato é uma aplicação web desenvolvida para mapear as habilidades técnicas (hard skills) e comportamentais (soft skills) de candidatos do SENAI, comparando-as em tempo real com os requisitos de vagas do mercado através de um Motor de Match Algorítmico.
 
 🛠️ Tecnologias Utilizadas
 *Back-end
@@ -95,3 +95,5 @@ A API estará rodando por padrão em http://localhost:5200.
 🚀 Próximas Implementações
 [ ] Criptografia de senhas com algoritmo Hash (BCrypt).
 [ ] Implementação de painel para empresas cadastrarem novas vagas.
+=======
+>>>>>>> baecc03c3f8931dfb0bfe22a67b9b0375bd27a11
