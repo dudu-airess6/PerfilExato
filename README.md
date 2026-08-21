@@ -71,8 +71,8 @@ Pré-requisitos
 Passos para Instalação
 1-Clone o repositório:
 Bash
-git clone https://github.com/seu-usuario/perfil-exato.git
-cd perfil-exato
+git clone https://github.com/dudu-airess6/PerfilExato
+cd PerfilExato/backend
 
 2-Configure a String de Conexão:
 Ajuste o arquivo appsettings.json com os dados do seu banco de dados:
