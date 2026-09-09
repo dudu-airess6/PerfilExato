@@ -71,8 +71,9 @@ Pré-requisitos
 Passos para Instalação
 1-Clone o repositório:
 Bash
-git clone https://github.com/seu-usuario/perfil-exato.git
-cd perfil-exato
+git clone https://github.com/dudu-airess6/PerfilExato.git
+cd PerfilExato
+cd backend
 
 2-Configure a String de Conexão:
 Ajuste o arquivo appsettings.json com os dados do seu banco de dados:
@@ -96,4 +97,4 @@ A API estará rodando por padrão em http://localhost:5200.
 [ ] Criptografia de senhas com algoritmo Hash (BCrypt).
 [ ] Implementação de painel para empresas cadastrarem novas vagas.
 =======
->>>>>>> baecc03c3f8931dfb0bfe22a67b9b0375bd27a11
+>>>>>>> 8e7643b002310b8241c5fdcacf8084cebe7346ff
