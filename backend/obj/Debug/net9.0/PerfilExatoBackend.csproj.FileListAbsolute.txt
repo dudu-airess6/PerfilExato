@@ -9,6 +9,7 @@ C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\n
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Azure.Identity.dll
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Humanizer.dll
+C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.Build.Locator.dll
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
@@ -149,4 +150,3 @@ C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\n
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\PerfilExatoBackend.pdb
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\PerfilExatoBackend.genruntimeconfig.cache
 C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\obj\Debug\net9.0\ref\PerfilExatoBackend.dll
-C:\Users\tarde.cetafest.LABFIES\Documents\GitHub\PerfilExato\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

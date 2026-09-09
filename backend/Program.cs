@@ -129,14 +129,19 @@ app.MapGet("/api/usuario", [Authorize] async (ClaimsPrincipal user, AppDbContext
         nome = usuario.Nome, 
         email = emailLogado,
         perfil = perfilDdto,
-        // 👇 Inclusão do "id = i.Id" para o botão do frontend funcionar corretamente
         inscricoes = usuario.Inscricoes.Select(i => new { id = i.Id, tituloVaga = i.TituloVaga, empresa = i.Empresa, dataHora = i.DataHora })
     });
 });
 
-// 📍 ROTA 4: SALVAR/ATUALIZAR PERFIL (Protegida pelo JWT)
+// 📍 ROTA 4: SALVAR/ATUALIZAR PERFIL (Protegida pelo JWT + Validação de CPF 🛡️)
 app.MapPost("/api/perfil/salvar", [Authorize] async (DadosPerfilDTO dados, ClaimsPrincipal user, AppDbContext context) =>
 {
+    // 👇 Trava de segurança: Rejeita CPFs inválidos diretamente no backend
+    if (!ValidarCPF(dados.cpf))
+    {
+        return Results.BadRequest(new { sucesso = false, mensagem = "CPF informado é inválido!" });
+    }
+
     string? emailDono = user.FindFirst(ClaimTypes.Email)?.Value;
     if (string.IsNullOrEmpty(emailDono)) return Results.Unauthorized();
 
@@ -199,7 +204,7 @@ app.MapPost("/api/vagas/candidatar", [Authorize] async (NovaCandidaturaDTO dados
     return Results.Ok(new { sucesso = true, message = "Inscrição realizada com sucesso!", mensagem = "Inscrição gravada no SQL Server!" });
 });
 
-// 📍 ROTA 6: MOTOR DE MATCH DE VAGAS 🚀 (Nova rota protegida)
+// 📍 ROTA 6: MOTOR DE MATCH DE VAGAS 🚀 (Rota protegida)
 app.MapGet("/api/vagas/match", [Authorize] async (ClaimsPrincipal user, AppDbContext context) =>
 {
     string? emailLogado = user.FindFirst(ClaimTypes.Email)?.Value;
@@ -260,7 +265,6 @@ app.MapDelete("/api/vagas/cancelar/{id}", [Authorize] async (int id, ClaimsPrinc
     var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
     if (usuario == null) return Results.BadRequest(new { sucesso = false, mensagem = "Usuário não encontrado." });
 
-    // Busca a inscrição validando se ela de fato pertence ao usuário autenticado
     var inscricao = await context.Inscricoes.FirstOrDefaultAsync(i => i.Id == id && i.UsuarioId == usuario.Id);
     
     if (inscricao == null) 
@@ -273,6 +277,51 @@ app.MapDelete("/api/vagas/cancelar/{id}", [Authorize] async (int id, ClaimsPrinc
 });
 
 app.Run("http://localhost:5200");
+
+// =================================================================
+// 🛠️ MÉTODOS AUXILIARES E VALIDAÇÕES
+// =================================================================
+// =================================================================
+// 🛠️ MÉTODOS AUXILIARES E VALIDAÇÕES
+// =================================================================
+public partial class Program
+{
+    public static bool ValidarCPF(string cpf)
+    {
+        if (string.IsNullOrWhiteSpace(cpf)) return false;
+
+        var numeros = new string(cpf.Where(char.IsDigit).ToArray());
+
+        if (numeros.Length != 11 || numeros.Distinct().Count() == 1) 
+            return false;
+
+        int[] mult1 = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+        int[] mult2 = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+
+        string tempCpf = numeros.Substring(0, 9);
+        int soma = 0;
+
+        for (int i = 0; i < 9; i++)
+            soma += int.Parse(tempCpf[i].ToString()) * mult1[i];
+
+        int resto = soma % 11;
+        resto = resto < 2 ? 0 : 11 - resto;
+
+        string digito = resto.ToString();
+        tempCpf += digito;
+        soma = 0;
+
+        for (int i = 0; i < 10; i++)
+            soma += int.Parse(tempCpf[i].ToString()) * mult2[i];
+
+        resto = soma % 11;
+        resto = resto < 2 ? 0 : 11 - resto;
+
+        digito += resto.ToString();
+
+        return numeros.EndsWith(digito);
+    }
+}
 
 // =================================================================
 // 🗄️ MODELOS DE MAPEAMENTO DO BANCO DE DADOS (TABELAS)
@@ -332,3 +381,4 @@ public record DadosCadastroDTO(string nome, string email, string senha);
 public record DadosLoginDTO(string email, string senha);
 public record NovaCandidaturaDTO(string tituloVaga, string empresa);
 public record DadosPerfilDTO(string cpf, string cep, string city, string cidade, string estado, string curso, string formacao, string[] competencias, string[] comportamentais);
+public partial class Program { }
