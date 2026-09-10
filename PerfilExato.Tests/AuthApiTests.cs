@@ -234,6 +234,20 @@ public class AuthApiTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _client.DeleteAsync("/api/vagas/cancelar/999999");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+    [Fact]
+public async Task Login_ComCredenciaisInvalidas_DeveRetornarUnauthorized()
+{
+    var loginInvalido = new 
+    { 
+        Email = "usuario.inexistente@perfilexato.com", 
+        Senha = "SenhaIncorreta123!" 
+    };
+
+    var response = await _client.PostAsJsonAsync("/api/login", loginInvalido);
+
+    // Ajustado para BadRequest
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+}
 }
 
 // 🟢 Classes auxiliares para deserialização dos DTOs nas respostas dos testes

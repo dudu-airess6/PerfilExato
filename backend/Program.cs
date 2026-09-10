@@ -93,9 +93,9 @@ app.MapPost("/api/login", async (DadosLoginDTO dados, AppDbContext context) =>
 
         return Results.Ok(new { sucesso = true, mensagem = "Login realizado com sucesso!", token = tokenGerado });
     }
-    return Results.BadRequest(new { sucesso = false, mensagem = "E-mail ou senha incorretos." });
-});
 
+    return Results.Unauthorized();
+});
 // 📍 ROTA 3: BUSCAR DADOS (Protegida pelo JWT - Atualizada com ID de inscrição)
 app.MapGet("/api/usuario", [Authorize] async (ClaimsPrincipal user, AppDbContext context) =>
 {
