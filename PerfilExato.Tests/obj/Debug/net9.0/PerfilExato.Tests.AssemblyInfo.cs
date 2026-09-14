@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PerfilExato.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+514d8bb25d069a0a3905fe682ed62f8bb9f781c4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0b2a687962ad36bec21b1f19e237107cfac0fb5")]
 [assembly: System.Reflection.AssemblyProductAttribute("PerfilExato.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PerfilExato.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
