@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hS9e623SHGw=",
+  "dgSpecHash": "pb6Lzz/sEos=",
   "success": true,
-  "projectFilePath": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
+  "projectFilePath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

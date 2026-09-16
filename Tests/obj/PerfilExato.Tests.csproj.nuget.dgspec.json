@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj": {}
+    "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj": {}
   },
   "projects": {
     "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\backend\\PerfilExatoBackend.csproj": {
@@ -85,14 +85,14 @@
         }
       }
     },
-    "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj": {
+    "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
         "projectName": "PerfilExato.Tests",
-        "projectPath": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
+        "projectPath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\PerfilExato.Tests.csproj",
         "packagesPath": "C:\\Users\\tarde.cetafest.LABFIES\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\obj\\",
+        "outputPath": "C:\\Users\\tarde.cetafest.LABFIES\\Documents\\GitHub\\PerfilExato\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tarde.cetafest.LABFIES\\AppData\\Roaming\\NuGet\\NuGet.Config",
